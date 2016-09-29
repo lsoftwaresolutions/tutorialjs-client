@@ -1,0 +1,89 @@
+@import "~bootstrap/scss/bootstrap-flex";
+@import "~bootstrap-material-design/dist/css/bootstrap-material-design";
+@import "~bootstrap-material-design/dist/css/ripples";
+
+
+@function str-replace($string, $search, $replace: "") {
+	$index: str-index($string, $search);
+
+	@if $index {
+		@return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+	}
+
+	@return $string;
+}
+
+@mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 50%)) {
+  ::-webkit-scrollbar {
+      width:  $size;
+      height: $size;
+  }
+
+  ::-webkit-scrollbar-thumb {
+      background: $foreground-color;
+  }
+
+  ::-webkit-scrollbar-track {
+      background: $background-color;
+  }
+
+  body {
+    scrollbar-face-color: $foreground-color;
+    scrollbar-track-color: $background-color;
+  }
+}
+
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf svg) {
+	$src: null;
+
+	$extmods: (
+		eot: "?",
+		svg: "#" + str-replace($name, " ", "_")
+	);
+
+	$formats: (
+		otf: "opentype",
+		ttf: "truetype"
+	);
+
+	@each $ext in $exts {
+		$extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+		$format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+		$src: append($src, url(quote($path + "." + $extmod)) format(quote($format)), comma);
+	}
+
+	@font-face {
+		font-family: quote($name);
+		font-style: $style;
+		font-weight: $weight;
+		src: $src;
+	}
+}
+
+@include scrollbars(.45em, #555);
+
+@include font-face('Roboto-Bold', '/assets/fonts/roboto/Roboto-Bold', 700, normal, eot woff2 woff ttf);
+@include font-face('Roboto-Light', '/assets/fonts/roboto/Roboto-Light', 300, normal, eot woff2 woff ttf);
+@include font-face('Roboto-Medium', '/assets/fonts/roboto/Roboto-Medium', 500, normal, eot woff2 woff ttf);
+@include font-face('Roboto', '/assets/fonts/roboto/Roboto-Regular', 400, normal, eot woff2 woff ttf);
+@include font-face('Roboto-Thin', '/assets/fonts/roboto/Roboto-Thin', 200, normal, eot woff2 woff ttf);
+
+* {
+  outline: none !important;
+}
+
+html,
+body,
+app,
+.full-height {
+  height: 100%;
+  font-family: Roboto, Arial, Helvetica, sans-serif
+}
+
+body {
+  overflow: hidden;
+}
+
+.navbar .navbar-nav > li > a {
+  position: relative;
+}
