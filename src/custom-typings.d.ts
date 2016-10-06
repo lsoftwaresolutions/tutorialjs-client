@@ -51,6 +51,7 @@ declare var ENV: string;
 declare var HMR: boolean;
 declare var System: SystemJS;
 declare var jQuery: any;
+declare var $: any;
 declare var gsap: any;
 declare var Vivus: any;
 

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { MnFullpageService, MnFullpageOptions } from 'ng2-fullpage';
 
 import { Circle } from '../circle';
 
@@ -27,21 +28,33 @@ export class GetStarted implements OnInit {
   target: any;
   animateHeader: boolean = true;
 
+  @Input() public options: MnFullpageOptions = new MnFullpageOptions({
+    controlArrows: false,
+    scrollingSpeed: 1000,
+    menu: '.menu',
+    css3: true,
+    anchors: [
+      'menuAnchor1', 'menuAnchor2', 'menuAnchor3',
+      'menuAnchor4', 'menuAnchor5', 'menuAnchor6'
+    ]
+  });
+
   // TypeScript public modifiers
-  constructor() { }
+  constructor(private fullpageService: MnFullpageService) { }
 
   ngOnInit() {
-    console.log('hello `Get Started` component');
-    this.animateLogo();
-    this.initHeader();
-    this.initAnimation();
-    this.addListeners();
+    // console.log('hello `Get Started` component');
+    // this.animateLogo();
+    // this.initHeader();
+    // this.initAnimation();
+    // this.addListeners();
   }
 
   private animateLogo() {
     setTimeout(function() {
       new Vivus('anim-logo', {
-        duration: 75,
+        type: 'scenario-sync',
+        duration: 10,
         delay: 0,
         start: 'inViewport',
         file: '../../assets/images/anim-logo.svg',
@@ -50,26 +63,42 @@ export class GetStarted implements OnInit {
         }
       }, function() {
         const transitionTime = '1s';
-        jQuery('#anim-logo .fill-blue').css({
-          fill: '#0c97ce',
+        jQuery('#anim-logo #letter-j').css({
+          transform: 'rotate(180deg) translateX(9%)',
           transition: transitionTime
         });
-        jQuery('#anim-logo .fill-red').css({
-          fill: '#db3340',
+        jQuery('#anim-logo #letter-s').css({
+          transform: 'rotateY(180deg) translateY(150%) translateX(-50%)',
           transition: transitionTime
         });
-        jQuery('#anim-logo .fill-black').css({
-          fill: '#2c3033',
-          transition: transitionTime
-        });
-        jQuery('#anim-logo .fill-yellow').css({
-          fill: '#e8b81a',
-          transition: transitionTime
-        });
+        /*setTimeout(() => {
+          jQuery('#anim-logo .fill-black').css({
+            fill: '#2c3033',
+            transition: transitionTime
+          });
+          setTimeout(() => {
+            jQuery('#anim-logo .fill-blue').css({
+              fill: '#0c97ce',
+              transition: transitionTime
+            });
+            setTimeout(() => {
+              jQuery('#anim-logo .fill-red').css({
+                fill: '#db3340',
+                transition: transitionTime
+              });
+              setTimeout(() => {
+                jQuery('#anim-logo .fill-yellow').css({
+                  fill: '#e8b81a',
+                  transition: transitionTime
+                });
+              }, 500);
+            }, 500);
+          }, 500);
+        }, 500);
         jQuery('#anim-logo .fill-tmp').css({
           fill: '#20da9b',
           transition: transitionTime
-        });
+        });*/
       });
     }, 750);
   }

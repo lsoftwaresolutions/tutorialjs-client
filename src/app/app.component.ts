@@ -21,10 +21,7 @@ export class App {
   name = 'Tutorial JS';
   url = 'https://twitter.com/lekhmanrus';
 
-  constructor(
-    public appState: AppState) {
-
-  }
+  constructor(public appState: AppState) {}
 
   ngOnInit() {
     console.log('Initial App State', this.appState.state);

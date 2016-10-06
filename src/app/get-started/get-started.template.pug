@@ -1,45 +1,149 @@
-//- article(
-//-   mnFullpage
-//-   '[mnFullpageNavigation]'='true'
-//-   [mnFullpageKeyboardScrolling]='true'
-//-   [mnFullpageControlArrows]='false'
-//- )
-section.get-started
-  #large-header.large-header
-    canvas#bg-canvas
-    #anim-logo.main-title
-  header
-    nav.navbar.navbar-full.navbar-fixed-top.navbar-header-menu.bg-faded
-      button.navbar-toggler.hidden-sm-up(
-        type='button'
-        data-toggle='collapse'
-        data-target='#header-menu'
-        aria-controls='header-menu'
-        aria-expanded='false'
-        aria-label='Toggle navigation'
-      ) ☰
-      #header-menu.collapse.navbar-toggleable-xs
-        a.navbar-brand(routerLink='/')
-          <img class="img-responsive" [src]="'../../assets/images/logo.svg'" />
-        ul.nav.navbar-nav
-          li.nav-item(
-            routerLink='/get-started'
-            routerLinkActive='active'
-          )
-            a.nav-link(href='#') Get Started
-          li.nav-item(
-            routerLink='/courses'
-            routerLinkActive='active'
-          )
-            a.nav-link(href='#') Courses
-          li.nav-item(
-            routerLink='/stories'
-            routerLinkActive='active'
-          )
-            a.nav-link(href='#') Stories
-          li.nav-item(
-            routerLink='/news'
-            routerLinkActive='active'
-          )
-            a.nav-link(href='#') News
-          li.nav-item
+<div class="menu-wrapper">
+  <ul class="menu">
+    <li data-menuanchor="menuAnchor1" class="active"><a href="#menuAnchor1">First section</a></li>
+    <li data-menuanchor="menuAnchor2"><a href="#menuAnchor2">Second section</a></li>
+    <li data-menuanchor="menuAnchor3"><a href="#menuAnchor3">Third section</a></li>
+    <li data-menuanchor="menuAnchor4"><a href="#menuAnchor4">Fourth section</a></li>
+    <li data-menuanchor="menuAnchor5"><a href="#menuAnchor5">Fifth section</a></li>
+    <li data-menuanchor="menuAnchor6"><a href="#menuAnchor6">Sixth section</a></li>
+  </ul>
+</div>
+<div [mnFullpage]="options" [mnFullpageNavigation]="true" [mnFullpageKeyboardScrolling]="true" [mnFullpageSlidesNavigation]="true" [mnFullpageSlidesNavPosition]="bottom">
+  <div class="section welcome-section fp-section fp-table">
+    <div class="fp-tableCell">
+      <h1>Angular 2 fullPage.js</h1>
+      <h4>Create Beautiful Fullscreen Scrolling Websites (now with Angular 2)!</h4>
+      <img class="logo-image" src="https://raw.githubusercontent.com/meiblorn/ng2-fullpage/develop/logo.png"/>
+    </div>
+  </div>
+  <div class="section install-section fp-section fp-table">
+    <div class="fp-tableCell">
+      <h1>Easy to install !</h1>
+      <div class="code-block">
+      <pre>
+        <code class="bash">{{templates.install}}</code>
+      </pre>
+      </div>
+    </div>
+  </div>
+  <div class="section usage-section fp-section fp-table">
+    <div class="fp-tableCell">
+      <div class="slide">
+        <h1>Easy to use !</h1>
+        <h4>Use keyboard arrows or navigation below to slide right</h4>
+      </div>
+      <div class="slide">
+        <h1>Declare it in your module</h1>
+        <div class="code-block">
+        <pre>
+          <code class="javascript">{{templates.usage.slides.module}}</code>
+        </pre>
+        </div>
+      </div>
+      <div class="slide">
+        <h1>Now use it in your html template</h1>
+        <div class="code-block">
+        <pre>
+          <code class="html">{{templates.usage.slides.html}}</code>
+        </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section slides-section fp-section fp-table">
+    <div class="fp-tableCell">
+      <div class="slide">
+        <h1>Many ways to configure!</h1>
+        <h4>Use keyboard arrows or navigation below to slide right</h4>
+      </div>
+      <div class="slide">
+        <h1>Configure it via attributes</h1>
+        <div class="code-block">
+        <pre>
+          <code class="html">{{templates.configuration.slides.attributes}}</code>
+        </pre>
+        </div>
+      </div>
+      <div class="slide">
+        <h1>Use configuration object instead</h1>
+        <div class="code-block">
+        <pre>
+          <code class="javascript">{{templates.configuration.slides.classOptions}}</code>
+        </pre>
+        </div>
+      </div>
+      <div class="slide">
+        <h1>Or MIX IT !</h1>
+        <div class="code-block">
+        <pre>
+          <code class="javascript">{{templates.configuration.slides.mix}}</code>
+        </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section usage-section fp-section fp-table">
+    <div class="fp-tableCell">
+      <h1>Get full control on the page !</h1>
+      <div class="code-block">
+      <pre>
+        <code class="html">{{templates.service}}</code>
+      </pre>
+      </div>
+      <div>
+        <button (click)="fullpageService.moveSectionUp();">Move section up</button>
+        <button (click)="fullpageService.moveSectionDown();">Move section down</button>
+      </div>
+    </div>
+  </div>
+  <div class="section start-use-it-now-section fp-section fp-table">
+    <div class="fp-tableCell">
+      <h1>Start use it now!</h1>
+      <h4>
+        | Return to
+        <a href="https://github.com/meiblorn/ng2-fullpage">GitHub</a>
+        | or start reading
+        <a href="docs/index.html">docs</a>
+      </h4>
+    </div>
+  </div>
+</div>
+//- section.get-started
+//-   #large-header.large-header
+//-     canvas#bg-canvas
+//-     #anim-logo.main-title
+//-   header
+//-     nav.navbar.navbar-full.navbar-fixed-top.navbar-header-menu.bg-faded
+//-       button.navbar-toggler.hidden-sm-up(
+//-         type='button'
+//-         data-toggle='collapse'
+//-         data-target='#header-menu'
+//-         aria-controls='header-menu'
+//-         aria-expanded='false'
+//-         aria-label='Toggle navigation'
+//-       ) ☰
+//-       #header-menu.collapse.navbar-toggleable-xs
+//-         a.navbar-brand(routerLink='/')
+//-           <img class="img-responsive" [src]="'../../assets/images/logo.svg'" />
+//-         ul.nav.navbar-nav
+//-           li.nav-item(
+//-             routerLink='/get-started'
+//-             routerLinkActive='active'
+//-           )
+//-             a.nav-link(href='#') Get Started
+//-           li.nav-item(
+//-             routerLink='/courses'
+//-             routerLinkActive='active'
+//-           )
+//-             a.nav-link(href='#') Courses
+//-           li.nav-item(
+//-             routerLink='/stories'
+//-             routerLinkActive='active'
+//-           )
+//-             a.nav-link(href='#') Stories
+//-           li.nav-item(
+//-             routerLink='/news'
+//-             routerLinkActive='active'
+//-           )
+//-             a.nav-link(href='#') News
+//-           li.nav-item

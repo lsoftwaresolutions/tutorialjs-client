@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { Ng2BootstrapModule } from 'ng2-bootstrap';
-// import { MnFullpageDirective, MnFullpageService } from 'ng2-fullpage';
+import { MnFullpageDirective, MnFullpageService } from 'ng2-fullpage';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 
 /*
@@ -44,7 +44,7 @@ type StoreType = {
     GetStarted,
     NoContent,
     XLarge,
-    // MnFullpageDirective
+    MnFullpageDirective
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -56,7 +56,7 @@ type StoreType = {
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
     APP_PROVIDERS,
-    // MnFullpageService
+    MnFullpageService
   ]
 })
 export class AppModule {

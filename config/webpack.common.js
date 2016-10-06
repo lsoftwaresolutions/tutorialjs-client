@@ -262,13 +262,15 @@ module.exports = function(options) {
         moment: 'moment',
         gsap: 'gsap',
         Vivus: 'vivus',
+        fullpage: 'fullpage.js',
         'window.$': 'jquery',
         'window.jQuery': 'jquery',
         'window.Tether': 'tether',
         'window.Waves': 'node-waves',
         'window.moment': 'moment',
         'window.gsap': 'gsap',
-        'window.Vivus': 'vivus'
+        'window.Vivus': 'vivus',
+        'fullpage': 'fullpage.js'
       }),
 
       /**

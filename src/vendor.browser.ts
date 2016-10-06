@@ -24,6 +24,9 @@ import 'rxjs/add/operator/mergeMap';
 // jQuery
 import 'jquery';
 
+// jQuery Fullpage
+import 'fullpage.js';
+
 // TweenLite
 import 'gsap';
 
