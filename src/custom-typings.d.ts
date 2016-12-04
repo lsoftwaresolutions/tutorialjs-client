@@ -46,14 +46,20 @@ import * as _ from 'lodash'
 // support NodeJS modules without type definitions
 declare module '*';
 
+/*
+// for legacy tslint etc to understand rename 'modern-lru' with your package
+// then comment out `declare module '*';`. For each new module copy/paste
+// this method of creating an `any` module type definition
+declare module 'modern-lru' {
+  let x: any;
+  export = x;
+}
+*/
+
 // Extra variables that live on Global that will be replaced by webpack DefinePlugin
 declare var ENV: string;
 declare var HMR: boolean;
 declare var System: SystemJS;
-declare var jQuery: any;
-declare var $: any;
-declare var gsap: any;
-declare var Vivus: any;
 
 interface SystemJS {
   import: (path?: string) => Promise<any>;
@@ -104,14 +110,14 @@ interface WebpackModule {
 
 
 interface WebpackRequire {
-    (id: string): any;
-    (paths: string[], callback: (...modules: any[]) => void): void;
-    ensure(ids: string[], callback: (req: WebpackRequire) => void, chunkName?: string): void;
-    context(directory: string, useSubDirectories?: boolean, regExp?: RegExp): WebpackContext;
+  (id: string): any;
+  (paths: string[], callback: (...modules: any[]) => void): void;
+  ensure(ids: string[], callback: (req: WebpackRequire) => void, chunkName?: string): void;
+  context(directory: string, useSubDirectories?: boolean, regExp?: RegExp): WebpackContext;
 }
 
 interface WebpackContext extends WebpackRequire {
-    keys(): string[];
+  keys(): string[];
 }
 
 interface ErrorStackTraceLimit {

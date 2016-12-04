@@ -1,23 +1,29 @@
 const webpack = require('webpack');
+const autoprefixer = require('autoprefixer');
 const helpers = require('./helpers');
 
 /*
  * Webpack Plugins
  */
 // problem with copy-webpack-plugin
+const AssetsPlugin = require('assets-webpack-plugin');
+const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
+const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
+const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 const HtmlElementsPlugin = require('./html-elements-plugin');
-const AssetsPlugin = require('assets-webpack-plugin');
-const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin'); 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 /*
  * Webpack Constants
  */
 const HMR = helpers.hasProcessFlag('hot');
 const METADATA = {
-  title: 'L Software Solutions',
+  title: 'Tutorial JS',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
 };
@@ -27,16 +33,9 @@ const METADATA = {
  *
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
-module.exports = function(options) {
+module.exports = function (options) {
   isProd = options.env === 'production';
   return {
-
-    /*
-     * Static metadata for index.html
-     *
-     * See: (custom attribute)
-     */
-    metadata: METADATA,
 
     /*
      * Cache generated modules and chunks to improve performance for multiple incremental builds.
@@ -45,7 +44,7 @@ module.exports = function(options) {
      *
      * See: http://webpack.github.io/docs/configuration.html#cache
      */
-     //cache: false,
+    //cache: false,
 
     /*
      * The entry point for the bundle
@@ -54,11 +53,9 @@ module.exports = function(options) {
      * See: http://webpack.github.io/docs/configuration.html#entry
      */
     entry: {
-
       'polyfills': './src/polyfills.browser.ts',
       'vendor':    './src/vendor.browser.ts',
       'main':      './src/main.browser.ts'
-
     },
 
     /*
@@ -73,13 +70,10 @@ module.exports = function(options) {
        *
        * See: http://webpack.github.io/docs/configuration.html#resolve-extensions
        */
-      extensions: ['', '.ts', '.js', '.json'],
+      extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html', '.pug', '.jade', '.svg'],
 
-      // Make sure root is src
-      root: helpers.root('src'),
-
-      // remove other default values
-      modulesDirectories: ['node_modules'],
+      // An array of directory names to be resolved to the current directory
+      modules: [helpers.root('src'), helpers.root('node_modules')],
 
     },
 
@@ -90,34 +84,7 @@ module.exports = function(options) {
      */
     module: {
 
-      /*
-       * An array of applied pre and post loaders.
-       *
-       * See: http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders
-       */
-      preLoaders: [
-        {
-          test: /\.ts$/,
-          loader: 'string-replace-loader',
-          query: {
-            search: '(System|SystemJS)(.*[\\n\\r]\\s*\\.|\\.)import\\((.+)\\)',
-            replace: '$1.import($3).then(mod => (mod.__esModule && mod.default) ? mod.default : mod)',
-            flags: 'g'
-          },
-          include: [helpers.root('src')]
-        },
-
-      ],
-
-      /*
-       * An array of automatically applied loaders.
-       *
-       * IMPORTANT: The loaders here are resolved relative to the resource which they are applied to.
-       * This means they are not resolved relative to the configuration file.
-       *
-       * See: http://webpack.github.io/docs/configuration.html#module-loaders
-       */
-      loaders: [
+      rules: [
 
         /*
          * Typescript loader support for .ts and Angular 2 async routes via .async.ts
@@ -128,10 +95,11 @@ module.exports = function(options) {
          */
         {
           test: /\.ts$/,
-          loaders: [
+          use: [
             '@angularclass/hmr-loader?pretty=' + !isProd + '&prod=' + isProd,
             'awesome-typescript-loader',
-            'angular2-template-loader'
+            'angular2-template-loader',
+            'angular2-router-loader'
           ],
           exclude: [/\.(spec|e2e)\.ts$/]
         },
@@ -143,7 +111,47 @@ module.exports = function(options) {
          */
         {
           test: /\.json$/,
-          loader: 'json-loader'
+          use: 'json-loader'
+        },
+
+        /*
+         * loader support for *.sass/*.scss files
+         * Returns file content as string
+         *
+         */
+        {
+          test: /\.s(a|c)ss$/,
+          use: ['to-string-loader', 'css-loader', 'postcss-loader', 'resolve-url-loader', 'sass-loader']// ['to-string-loader', 'css-loader', 'postcss-loader', 'resolve-url-loader', 'sass-loader']// ['raw-loader', 'sass-loader'] // ['to-string-loader', 'css-loader', 'sass-loader'] // ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
+        },
+
+        /*
+         * loader support for fonts
+         * Returns file content as string
+         *
+         */
+        {
+          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          use: 'url-loader?limit=10000&mimetype=application/font-woff'
+        },
+
+        /*
+         * file loader
+         * Returns file content as string
+         *
+         */
+        {
+          test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          use: 'file-loader'
+        },
+
+        /*
+         * loader support for Bootstrap 4
+         * Returns file content as string
+         *
+         */
+        {
+          test: /bootstrap\/dist\/js\//,
+          use: 'imports-loader?jQuery=jquery'
         },
 
         /*
@@ -153,27 +161,7 @@ module.exports = function(options) {
          */
         {
           test: /\.css$/,
-          loaders: ['to-string-loader', 'css-loader']
-        },
-
-        /*
-         * to string and SASS loader support for *.scss files
-         * Returns file content as string
-         *
-         */
-        {
-          test: /\.s(c|a)ss$/,
-          loaders: ['to-string-loader', 'css-loader', 'sass-loader?outputStyle=compressed&sourceComments=false']
-        },
-
-        /*
-         * to string and PUG loader support for *.pug files
-         * Returns file content as string
-         *
-         */
-        {
-          test: /\.(pug|jade)/,
-          loaders: ['pug-html-loader']
+          use: ['to-string-loader', 'css-loader']
         },
 
         /* Raw loader support for *.html
@@ -183,40 +171,29 @@ module.exports = function(options) {
          */
         {
           test: /\.html$/,
-          loader: 'raw-loader',
+          use: 'raw-loader',
           exclude: [helpers.root('src/index.html')]
         },
 
+        /* loader support for *.pug/*.jade files
+         * Returns file content as string
+         *
+         * See: https://github.com/webpack/raw-loader
+         */
+        {
+          test: /\.(pug|jade)$/,
+          use: 'pug-html-loader'
+        },
+
         /* File loader for supporting images, for example, in CSS files.
-        */
+         */
         {
           test: /\.(jpg|png|gif)$/,
-          loader: 'file'
-        },
-
-        /* File loader for supporting fonts.
-        */
-        {
-          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'url-loader?limit=10000&mimetype=application/font-woff'
-        },
-        {
-          test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'file'
+          use: 'file-loader'
         }
+
       ],
 
-      postLoaders: [
-        {
-          test: /\.js$/,
-          loader: 'string-replace-loader',
-          query: {
-            search: 'var sourceMappingUrl = extractSourceMappingUrl\\(cssText\\);',
-            replace: 'var sourceMappingUrl = "";',
-            flags: 'g'
-          }
-        }
-      ]
     },
 
     /*
@@ -225,6 +202,17 @@ module.exports = function(options) {
      * See: http://webpack.github.io/docs/configuration.html#plugins
      */
     plugins: [
+      new ProvidePlugin({
+        'jQuery': 'jquery',
+        '$': 'jquery',
+        'jquery': 'jquery',
+        'Tether': 'tether',
+        'window.jQuery': 'jquery',
+        'window.$': 'jquery',
+        'window.jquery': 'jquery',
+        'window.Tether': "tether"
+      }),
+
       new AssetsPlugin({
         path: helpers.root('dist'),
         filename: 'webpack-assets.json',
@@ -238,7 +226,6 @@ module.exports = function(options) {
        * See: https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
        */
       new ForkCheckerPlugin(),
-
       /*
        * Plugin: CommonsChunkPlugin
        * Description: Shares common code between the pages.
@@ -247,30 +234,8 @@ module.exports = function(options) {
        * See: https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
        * See: https://github.com/webpack/docs/wiki/optimization#multi-page-app
        */
-      new webpack.optimize.CommonsChunkPlugin({
+      new CommonsChunkPlugin({
         name: ['polyfills', 'vendor'].reverse()
-      }),
-
-      /*
-       * Plugin: CommonsChunkPlugin
-       */
-      new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        Tether: 'tether',
-        Waves: 'node-waves',
-        moment: 'moment',
-        gsap: 'gsap',
-        Vivus: 'vivus',
-        fullpage: 'fullpage.js',
-        'window.$': 'jquery',
-        'window.jQuery': 'jquery',
-        'window.Tether': 'tether',
-        'window.Waves': 'node-waves',
-        'window.moment': 'moment',
-        'window.gsap': 'gsap',
-        'window.Vivus': 'vivus',
-        'fullpage': 'fullpage.js'
       }),
 
       /**
@@ -282,8 +247,11 @@ module.exports = function(options) {
        */
       new ContextReplacementPlugin(
         // The (\\|\/) piece accounts for path separators in *nix and Windows
-        /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
-        helpers.root('src') // location of your src
+        /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
+        helpers.root('src'), // location of your src
+        {
+          // your Angular Async Route paths relative to this root directory
+        }
       ),
 
       /*
@@ -294,10 +262,11 @@ module.exports = function(options) {
        *
        * See: https://www.npmjs.com/package/copy-webpack-plugin
        */
-      new CopyWebpackPlugin([{
-        from: 'src/assets',
-        to: 'assets'
-      }]),
+      new CopyWebpackPlugin([
+        { from: 'src/assets', to: 'assets' },
+        { from: 'src/meta'}
+      ]),
+
 
       /*
        * Plugin: HtmlWebpackPlugin
@@ -309,11 +278,25 @@ module.exports = function(options) {
        */
       new HtmlWebpackPlugin({
         template: 'src/index.html',
-        chunksSortMode: 'dependency'
+        title: METADATA.title,
+        chunksSortMode: 'dependency',
+        metadata: METADATA,
+        inject: 'head'
       }),
 
       /*
-       * Plugin: HtmlHeadConfigPlugin
+       * Plugin: ScriptExtHtmlWebpackPlugin
+       * Description: Enhances html-webpack-plugin functionality
+       * with different deployment options for your scripts including:
+       *
+       * See: https://github.com/numical/script-ext-html-webpack-plugin
+       */
+      new ScriptExtHtmlWebpackPlugin({
+        defaultAttribute: 'defer'
+      }),
+
+      /*
+       * Plugin: HtmlElementsPlugin
        * Description: Generate html tags based on javascript maps.
        *
        * If a publicPath is set in the webpack output configuration, it will be automatically added to
@@ -338,6 +321,52 @@ module.exports = function(options) {
         headTags: require('./head-config.common')
       }),
 
+      /**
+       * Plugin LoaderOptionsPlugin (experimental)
+       *
+       * See: https://gist.github.com/sokra/27b24881210b56bbaff7
+       */
+      new LoaderOptionsPlugin({
+        debug: true,
+        options: {
+          context: helpers.root(),
+          output: { path: helpers.root('dist') },
+          postcss: [autoprefixer],
+          /**
+           * Static analysis linter for TypeScript advanced options configuration
+           * Description: An extensible linter for the TypeScript language.
+           *
+           * See: https://github.com/wbuchwalter/tslint-loader
+           */
+          tslint: {
+            emitErrors: false,
+            failOnHint: false,
+            resourcePath: 'src'
+          }
+        }
+      }),
+
+      // Fix Angular 2
+      new NormalModuleReplacementPlugin(
+        /facade(\\|\/)async/,
+        helpers.root('node_modules/@angular/core/src/facade/async.js')
+      ),
+      new NormalModuleReplacementPlugin(
+        /facade(\\|\/)collection/,
+        helpers.root('node_modules/@angular/core/src/facade/collection.js')
+      ),
+      new NormalModuleReplacementPlugin(
+        /facade(\\|\/)errors/,
+        helpers.root('node_modules/@angular/core/src/facade/errors.js')
+      ),
+      new NormalModuleReplacementPlugin(
+        /facade(\\|\/)lang/,
+        helpers.root('node_modules/@angular/core/src/facade/lang.js')
+      ),
+      new NormalModuleReplacementPlugin(
+        /facade(\\|\/)math/,
+        helpers.root('node_modules/@angular/core/src/facade/math.js')
+      ),
     ],
 
     /*
@@ -347,7 +376,7 @@ module.exports = function(options) {
      * See: https://webpack.github.io/docs/configuration.html#node
      */
     node: {
-      global: 'window',
+      global: true,
       crypto: 'empty',
       process: true,
       module: false,

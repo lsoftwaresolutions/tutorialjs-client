@@ -1,0 +1,108 @@
+section.get-started.bg-animated
+  header
+    nav.navbar.navbar-full.navbar-fixed-bottom.navbar-animated.navbar-header-menu.navbar-bottom.bg-faded
+      button.navbar-toggler.hidden-sm-up(
+        type='button'
+        data-toggle='collapse'
+        data-target='#header-menu'
+        aria-controls='header-menu'
+        aria-expanded='false'
+        aria-label='Toggle navigation'
+      ) ☰
+      #header-menu.collapse.navbar-toggleable-xs
+        a.navbar-brand(routerLink='/')
+          <img class="img-responsive" [src]="'../../assets/images/logo.svg'" />
+        ul.nav.navbar-nav
+          li.nav-item(
+            routerLink='/get-started'
+            routerLinkActive='active'
+          )
+            a.nav-link(href='#') Get Started
+          li.nav-item(
+            routerLink='/courses'
+            routerLinkActive='active'
+          )
+            a.nav-link(href='#') Courses
+          li.nav-item(
+            routerLink='/stories'
+            routerLinkActive='active'
+          )
+            a.nav-link(href='#') Stories
+          li.nav-item(
+            routerLink='/news'
+            routerLinkActive='active'
+          )
+            a.nav-link(href='#') News
+          li.nav-item
+  div(
+    [mnFullpage]
+    '[mnFullpageNavigation]'='true'
+    '[mnFullpageShowActiveTooltip]'='true'
+    '[mnFullpageNavigationPosition]'='"right"'
+    '[mnFullpageNavigationTooltips]'='["Get Started", "Courses", "Stories", "News"]'
+    '[mnFullpageOnLeave]'='test'
+  )
+    .section.fp-section.fp-table
+      .fp-tableCell
+        #large-header.large-header
+          canvas#bg-canvas
+          #anim-logo.main-title
+    .section.fp-section.fp-table
+      .fp-tableCell
+        .container.fullheight.mt-75
+          .row.flex-items-xs-middle.fullheight
+            .col-xs
+              .owl-carousel.owl-theme.owl-carousel-courses
+                .card
+                  img.card-img-top.img-fluid(
+                    src='http://blog.zacorp.ru/wp-content/uploads/2016/09/how_to_add_attribute_dynamically_in_html_tag_using_javascript_function.png'
+                    alt='JavaScript'
+                  )
+                  .card-block
+                    h4.card-title JavaScript 1
+                    p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
+                    a.btn.btn-primary(href='#') Go somewhere
+                .card
+                  img.card-img-top.img-fluid(
+                    src='http://blog.zacorp.ru/wp-content/uploads/2016/09/how_to_add_attribute_dynamically_in_html_tag_using_javascript_function.png'
+                    alt='JavaScript'
+                  )
+                  .card-block
+                    h4.card-title JavaScript 2
+                    p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
+                    a.btn.btn-primary(href='#') Go somewhere
+                .card
+                  img.card-img-top.img-fluid(
+                    src='http://blog.zacorp.ru/wp-content/uploads/2016/09/how_to_add_attribute_dynamically_in_html_tag_using_javascript_function.png'
+                    alt='JavaScript'
+                  )
+                  .card-block
+                    h4.card-title JavaScript 3
+                    p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
+                    a.btn.btn-primary(href='#') Go somewhere
+                .card
+                  img.card-img-top.img-fluid(
+                    src='http://blog.zacorp.ru/wp-content/uploads/2016/09/how_to_add_attribute_dynamically_in_html_tag_using_javascript_function.png'
+                    alt='JavaScript'
+                  )
+                  .card-block
+                    h4.card-title JavaScript 4
+                    p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
+                    a.btn.btn-primary(href='#') Go somewhere
+                .card
+                  img.card-img-top.img-fluid(
+                    src='http://blog.zacorp.ru/wp-content/uploads/2016/09/how_to_add_attribute_dynamically_in_html_tag_using_javascript_function.png'
+                    alt='JavaScript'
+                  )
+                  .card-block
+                    h4.card-title JavaScript 5
+                    p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
+                    a.btn.btn-primary(href='#') Go somewhere
+    .section.fp-section.fp-table
+      .fp-tableCell
+        .mt-75
+          | Stories
+    .section.fp-section.fp-table
+      .fp-tableCell
+        .mt-75
+          | News

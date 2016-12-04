@@ -24,23 +24,30 @@ import 'rxjs/add/operator/mergeMap';
 // jQuery
 import 'jquery';
 
-// jQuery Fullpage
+// Owl Carousel 2
+import 'owl.carousel';
+
+// jQuery Color
+import 'jquery-color'; // unused
+
+// Bootstrap
+import 'bootstrap-loader';
+
+// Bootstrap Material Design
+import 'bootstrap-material-design';
+
+// Fullpage
 import 'fullpage.js';
 
 // TweenLite
-import 'gsap';
+// import 'gsap';
 
-// Material design theme for Bootstrap 3 and 4
-import 'bootstrap-material-design';
-
-// Angular 2 Fullpage
-// import 'ng2-fullpage';
+// Vivus
+// import 'vivus';
 
 if ('production' === ENV) {
   // Production
-
-
-} else {
+}
+else {
   // Development
-
 }
