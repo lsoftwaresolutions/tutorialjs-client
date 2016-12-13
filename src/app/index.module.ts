@@ -1,29 +1,23 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-
 import { CoreModule } from './core';
 import { GetStartedModule } from './get-started';
+import { PortalModule } from './portal';
 
 /*
  * Platform and Environment providers/directives/pipes
  */
 import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './index.routes';
+
 // App is our top level component
 import { AppComponent } from './app.component';
+import { NoContentComponent } from './no-content';
 import { APP_RESOLVER_PROVIDERS } from './index.resolver';
 import { AppState, InternalStateType } from './app.service';
-import { HomeComponent } from './home';
-import { AboutComponent } from './about';
-import { NoContentComponent } from './no-content';
-import { XLarge } from './home/x-large';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -44,21 +38,15 @@ type StoreType = {
   bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
-    AboutComponent,
-    HomeComponent,
-    NoContentComponent,
-    XLarge
+    NoContentComponent
   ],
   imports: [
     // import Angular's modules
     BrowserModule,
-    FormsModule,
-    HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
-    NgbModule.forRoot(),
-    SlimLoadingBarModule.forRoot(),
     CoreModule,
-    GetStartedModule
+    GetStartedModule,
+    PortalModule
   ],
   providers: [
     // expose our Services and Providers into Angular's dependency injection

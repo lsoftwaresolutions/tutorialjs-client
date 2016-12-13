@@ -13,14 +13,12 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 
-# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
-.grunt
-
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 
 # Users Environment Variables
 .lock-wscript
+/src/app/core/services/core-config/secure.json
 
 # OS generated files #
 .DS_Store
@@ -30,11 +28,7 @@ Thumbs.db
 
 # Node Files #
 /node_modules
-/bower_components
 npm-debug.log
-
-# Coverage #
-/coverage/
 
 # Typing #
 /src/typings/tsd/

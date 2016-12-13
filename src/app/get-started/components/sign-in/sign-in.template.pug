@@ -1,0 +1,72 @@
+section.sign-in(tjsMaterialize)
+  form(
+    '(ngSubmit)'='signIn()'
+    '#signInForm'='ngForm'
+  )
+    .container
+      .row
+        .col-xs
+        .col-xs-10.col-sm-9.col-md-7.col-lg-5.col-xl-4.text-xs-center
+          .card
+            br
+            .row
+              .col-xs
+              .col-xs-8.text-xs-center
+                img.img-responsive(
+                  [src]='"../../assets/images/logo.svg"'
+                  alt='TutorialJS'
+                )
+              .col-xs
+            hr
+            .container-fluid.text-xs-left
+              .row
+                .col-xs
+                .col-xs-12
+                  .card-block.text-xs-center.pa-0
+                    h4.card-title Sign In
+                  .form-group.label-floating
+                    label.control-label(for='email') Email address
+                    input#email.form-control(
+                      name='email'
+                      type='email'
+                      '[(ngModel)]'='signInModel.email'
+                      '#email'='ngModel'
+                      required
+                      email
+                    )
+                    small.text-danger('*ngIf'='!email.valid && !email.pristine')
+                      span('*ngIf'='email.errors?.required') Email is required.
+                      span('*ngIf'='email.errors?.email') Email is not valid.
+                  .form-group.label-floating
+                    label.control-label(for='password') Password
+                    input#password.form-control(
+                      name='password'
+                      type='password'
+                      '[(ngModel)]'='signInModel.password'
+                      '#password'='ngModel'
+                      required
+                      minlength='6'
+                    )
+                    button.btn.btn-link.btn-xs.text-primary.float-xs-right.pt-0(
+                      routerLink='/password-reset'
+                      type='button'
+                      role='button'
+                    ) Forgot password?
+                    small.text-danger('*ngIf'='!password.valid && !password.pristine')
+                      span('*ngIf'='password.errors?.required') Password is required.
+                      span('*ngIf'='password.errors?.minlength') Password must be longer than 6 characters.
+                .col-xs
+            .card-block.pt-0.pl-1.pr-1.text-xs-left
+              button.btn.btn-success.float-xs-right(
+                type='submit'
+                role='button'
+              )
+                i.fa.fa-check
+                | &nbsp;
+                | Sign In
+              button.btn.btn-link.btn-xs.text-primary.pt-1(
+                routerLink='/join'
+                type='button'
+                role='button'
+              ) Create new account?
+        .col-xs

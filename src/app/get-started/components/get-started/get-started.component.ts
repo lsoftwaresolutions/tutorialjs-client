@@ -1,10 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as jQuery from 'jquery';
 import * as Vivus from 'vivus';
 import { TweenLite, Circ } from 'gsap';
 import { CircleService } from '../../services/circle';
+import { UserService } from '../../../core/services/user';
 
-// import { MnFullpageService, MnFullpageOptions } from 'ng2-fullpage';
 
 @Component({
   // The selector is what angular internally uses
@@ -12,7 +12,9 @@ import { CircleService } from '../../services/circle';
   // where, in this case, selector is the string 'get-started'
   selector: 'get-started',  // <get-started></get-started>
   // We need to tell Angular's Dependency Injection which providers are in our app.
-  providers: [ ],
+  providers: [
+    UserService
+  ],
   // Our list of styles in our component. We may add more to compose many styles together
   styleUrls: [ './get-started.style.scss' ],
   // Every Angular template is first compiled by the browser before Angular runs it's compiler
@@ -20,35 +22,52 @@ import { CircleService } from '../../services/circle';
 })
 
 export class GetStartedComponent implements OnInit {
-  static bgColorsMap: any = {
+  public user: IUser;
+  private static bgColorsMap: any = {
     1: 'tjs-bg-teal-important',
     2: 'tjs-bg-lightblue-important',
     3: 'tjs-bg-orange-important',
     4: 'tjs-bg-gray-important',
   };
   // Set our default values
-  localState = { value: '' };
-  width: number;
-  height: number;
-  largeHeader: any;
-  canvas: any;
-  ctx: any;
-  points: any[];
-  target: any;
-  animateHeader: boolean = true;
+  public isCollapsed: boolean = true;
+  private localState = { value: '' };
+  private width: number;
+  private height: number;
+  private largeHeader: any;
+  private canvas: any;
+  private ctx: any;
+  private points: any[];
+  private target: any;
+  private animateHeader: boolean = true;
 
-  // TypeScript public modifiers
-  constructor(/*private fullpageService: MnFullpageService*/) { }
+  constructor(private userService: UserService) {
+    console.log('hello `Get Started` component');
+    userService.current()
+      .$observable
+      .subscribe(
+        (user: IUser) => this.user = user
+      );
+  }
 
   ngOnInit() {
-    console.log('hello `Get Started` component');
     this.animateLogo();
     this.initHeader();
     this.initAnimation();
     this.addListeners();
   }
 
-  public test(index: number, nextIndex: number, direction: string) {
+  ngOnDestroy() {
+    if ($.fn.fullpage) {
+      $.fn.fullpage.destroy('all');
+    }
+  }
+
+  public logout() {
+    this.userService.logout();
+  }
+
+  public onPageChanged(index: number, nextIndex: number, direction: string) {
     let bg = jQuery('.get-started');
     bg.removeClass([
       'tjs-bg-red-important',
@@ -80,14 +99,14 @@ export class GetStartedComponent implements OnInit {
       }, 700);
     }
     if (nextIndex === 2) {
-      (<any>jQuery('.owl-carousel')).owlCarousel({
+      (<any>jQuery('.owl-carousel-courses')).owlCarousel({
         loop: true,
         autoplay: true,
         autoplayTimeout: 3000,
         autoplayHoverPause: true,
         margin: 25,
         nav: true,
-        responsive : {
+        responsive: {
           0: {
             items: 1
           },
@@ -100,6 +119,38 @@ export class GetStartedComponent implements OnInit {
         }
       });
     }
+    else if (nextIndex === 3) {
+      (<any>jQuery('.owl-carousel-stories')).owlCarousel({
+        loop: true,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        autoplayHoverPause: true,
+        margin: 25,
+        nav: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          768: {
+            items: 2
+          },
+          1200: {
+            items: 3
+          }
+        }
+      });
+    }
+    else if (nextIndex === 4) {
+      (<any>jQuery('.owl-carousel-news')).owlCarousel({
+        loop: true,
+        autoplay: true,
+        autoplayTimeout: 5000,
+        autoplayHoverPause: true,
+        margin: 25,
+        nav: true,
+        items: 1
+      });
+    }
   }
 
   private animateLogo() {
@@ -110,8 +161,8 @@ export class GetStartedComponent implements OnInit {
         delay: 0,
         start: 'inViewport',
         file: '../../../../assets/images/anim-logo.svg',
-        onReady: function(test) {
-          test.play();
+        onReady: function(animation) {
+          animation.play();
         }
       }), function() {
         const transitionTime = '1s';

@@ -5,6 +5,7 @@
 @import '~bootstrap-material-design/dist/css/ripples.css';
 //@import '~bootstrap-material-design/dist/bootstrap-material-design.css';
 @import '~ng2-slim-loading-bar/style.css';
+@import '~ng2-toastr/ng2-toastr.css';
 @import '~fullpage.js/dist/jquery.fullpage.css';
 @import '~owl.carousel/dist/assets/owl.carousel.css';
 @import '~owl.carousel/dist/assets/owl.theme.default.css';
@@ -28,11 +29,11 @@ $tjs-colors: ('red' $tjs-red) ('orange' $tjs-orange) ('beige' $tjs-beige) ('teal
   }
 
   .tjs-#{$color-name}-important {
-    color: $color;
+    color: $color !important;
   }
 
   .tjs-bg-#{$color-name} {
-    background-color: $color !important;
+    background-color: $color;
   }
 
   .tjs-bg-#{$color-name}-important {
@@ -122,9 +123,33 @@ $tjs-colors: ('red' $tjs-red) ('orange' $tjs-orange) ('beige' $tjs-beige) ('teal
 html,
 body,
 app,
+main,
+sign-up,
+sign-in,
+no-content,
+password-reset,
 .full-height {
   height: 100%;
   font-family: Roboto, Arial, Helvetica, sans-serif
+}
+
+sign-up {
+  display: block;
+  background-color: $tjs-orange;
+}
+
+sign-in {
+  display: block;
+  background-color: $tjs-darkblue;
+}
+
+password-reset {
+  display: block;
+  background-color: $tjs-red;
+}
+
+no-content {
+  background-color: #20da9b;
 }
 
 body {
@@ -135,11 +160,21 @@ body {
   position: relative;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
+.absolute {
+  position: absolute;
+}
+
 .fp-tableCell {
   display: block;
 }
 
-.owl-carousel.owl-theme.owl-carousel-courses {
+.owl-carousel.owl-theme.owl-carousel-courses,
+.owl-carousel.owl-theme.owl-carousel-stories,
+.owl-carousel.owl-theme.owl-carousel-news {
   .owl-nav {
     display: none;
   }

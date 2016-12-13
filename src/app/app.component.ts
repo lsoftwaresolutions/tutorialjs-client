@@ -1,8 +1,8 @@
 /*
  * Angular 2 decorators and services
  */
-import { Component, ViewEncapsulation } from '@angular/core';
-
+import { Component, ViewEncapsulation, ViewContainerRef } from '@angular/core';
+import { ToastsManager } from 'ng2-toastr';
 import { AppState } from './app.service';
 
 /*
@@ -20,9 +20,8 @@ export class AppComponent {
   name = 'Angular 2 Webpack Starter';
   url = 'https://twitter.com/AngularClass';
 
-  constructor(
-    public appState: AppState) {
-
+  constructor(public appState: AppState, toastr: ToastsManager, vRef: ViewContainerRef) {
+    toastr.setRootViewContainerRef(vRef);
   }
 
   ngOnInit() {

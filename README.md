@@ -1,2 +1,2 @@
-# tutorialjs
-Tutorial JS
+# tutorialjs-client
+Tutorial JS Client.

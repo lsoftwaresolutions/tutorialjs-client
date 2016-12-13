@@ -1,3 +1,8 @@
+/// <reference path="./app/core/services/auth/auth.d.ts" />
+/// <reference path="./app/core/services/core-config/core-config.d.ts" />
+/// <reference path="./app/core/services/password-reset/password-reset.d.ts" />
+/// <reference path="./app/core/services/user/user.d.ts" />
+
 /*
  * Custom Type Definitions
  * When including 3rd party modules you also need to include the type definition for the module

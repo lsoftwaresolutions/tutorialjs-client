@@ -1,50 +1,100 @@
-section.get-started.bg-animated
+section.get-started.bg-animated(tjsMaterialize)
+  svg.absolute(
+    xmlns='http://www.w3.org/2000/svg'
+  )
+    filter#img-small-drop-shadow
+      feGaussianBlur(
+        in='SourceAlpha'
+        stdDeviation='9'
+      )
+      feOffset(
+        dx='0'
+        dy='0'
+        result='offsetblur'
+      )
+      feFlood(flood-color='rgba(255, 255, 255, 0.45)')
+      feComposite(
+        in2='offsetblur'
+        operator='in'
+      )
+      feMerge
+        feMergeNode
+        feMergeNode(in='SourceGraphic')
   header
     nav.navbar.navbar-full.navbar-fixed-bottom.navbar-animated.navbar-header-menu.navbar-bottom.bg-faded
-      button.navbar-toggler.hidden-sm-up(
-        type='button'
-        data-toggle='collapse'
-        data-target='#header-menu'
-        aria-controls='header-menu'
-        aria-expanded='false'
-        aria-label='Toggle navigation'
-      ) ☰
-      #header-menu.collapse.navbar-toggleable-xs
-        a.navbar-brand(routerLink='/')
-          <img class="img-responsive" [src]="'../../assets/images/logo.svg'" />
-        ul.nav.navbar-nav
-          li.nav-item(
-            routerLink='/get-started'
-            routerLinkActive='active'
+      .container
+        a.navbar-brand.hidden-lg-up(routerLink='/')
+          img.img.img-responsive.img-glow(
+            [src]='"../../assets/images/logo.svg"'
+            alt='TutorialJS'
           )
-            a.nav-link(href='#') Get Started
-          li.nav-item(
-            routerLink='/courses'
-            routerLinkActive='active'
-          )
-            a.nav-link(href='#') Courses
-          li.nav-item(
-            routerLink='/stories'
-            routerLinkActive='active'
-          )
-            a.nav-link(href='#') Stories
-          li.nav-item(
-            routerLink='/news'
-            routerLinkActive='active'
-          )
-            a.nav-link(href='#') News
-          li.nav-item
+        button.pointer.navbar-toggler.hidden-lg-up.float-md-right(
+          type='button'
+          data-toggle='collapse'
+          data-target='#header-menu'
+          aria-controls='header-menu'
+          aria-expanded='false'
+          aria-label='Toggle navigation'
+          '(click)'='isCollapsed = !isCollapsed'
+        ) ☰
+        .clearfix
+        #header-menu.collapse.navbar-toggleable-md([ngbCollapse]='isCollapsed')
+          a.navbar-brand.hidden-md-down(routerLink='/')
+            img.img.img-responsive.img-glow(
+              [src]='"../../assets/images/logo.svg"'
+              alt='TutorialJS'
+            )
+          ul.nav.navbar-nav
+            li.nav-item(routerLinkActive='active')
+              a.nav-link(routerLink='/get-started') Get Started
+            li.nav-item(
+              routerLinkActive='active'
+              '*ngIf'="user"
+            )
+              a.nav-link(routerLink='/home') Home
+            li.nav-item(routerLinkActive='active')
+              a.nav-link(routerLink='/courses') Courses
+            li.nav-item(routerLinkActive='active')
+              a.nav-link(routerLink='/stories') Stories
+            li.nav-item(routerLinkActive='active')
+              a.nav-link(routerLink='/news') News
+            li.nav-item
+          ul.nav.navbar-nav.float-lg-right('*ngIf'="user")
+            li.nav-item(routerLinkActive='active')
+              a.nav-link(routerLink='/profile')
+                //- i.fa.fa-user
+                img.img-responsive.img-avatar('[src]'='user.picture')
+                span.tjs-darkblue-important.username
+                  | &nbsp;
+                  strong {{ user.firstname || user.login }}
+            li.nav-item
+              a.nav-link.pointer('(click)'='logout()')
+                i.fa.fa-sign-out
+                | &nbsp;
+                | Sign Out
+          form.form-inline.text-xs-center.float-lg-right('*ngIf'="!user")
+            a.btn.align-middle.btn-raised.btn-default.mt-1.mb-1.mr-1(
+              routerLink='/login'
+              type='button'
+              role='button'
+            ) Sign In
+            a.btn.align-middle.btn-raised.btn-success.mt-1.mb-1(
+              routerLink='/join'
+              type='button'
+              role='button'
+            ) Sign Up
   div(
     [mnFullpage]
     '[mnFullpageNavigation]'='true'
     '[mnFullpageShowActiveTooltip]'='true'
     '[mnFullpageNavigationPosition]'='"right"'
     '[mnFullpageNavigationTooltips]'='["Get Started", "Courses", "Stories", "News"]'
-    '[mnFullpageOnLeave]'='test'
+    '[mnFullpageOnLeave]'='onPageChanged'
   )
     .section.fp-section.fp-table
       .fp-tableCell
         #large-header.large-header
+          img.img.img-responsive.img-absolute([src]='"../../assets/images/bg-landing.svg"')
           canvas#bg-canvas
           #anim-logo.main-title
     .section.fp-section.fp-table
@@ -54,55 +104,132 @@ section.get-started.bg-animated
             .col-xs
               .owl-carousel.owl-theme.owl-carousel-courses
                 .card
-                  img.card-img-top.img-fluid(
-                    src='http://blog.zacorp.ru/wp-content/uploads/2016/09/how_to_add_attribute_dynamically_in_html_tag_using_javascript_function.png'
-                    alt='JavaScript'
-                  )
+                  .img-wrapper
+                    img.card-img-top.img-fluid(
+                      src='http://blog.zacorp.ru/wp-content/uploads/2016/09/how_to_add_attribute_dynamically_in_html_tag_using_javascript_function.png'
+                      alt='JavaScript'
+                    )
                   .card-block
-                    h4.card-title JavaScript 1
-                    p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
-                    a.btn.btn-primary(href='#') Go somewhere
+                    .title-wrapper
+                      h4.card-title JavaScript
+                    .description-wrapper
+                      p.card-text It is a high-level, dynamic, untyped, and interpreted programming language. It has been standardized in the ECMAScript language specification. JavaScript is prototype-based with first-class functions, making it a multi-paradigm language, supporting object-oriented, imperative, and functional programming styles.
+                    a.btn.btn-block.btn-primary(href='#') Start Now
                 .card
-                  img.card-img-top.img-fluid(
-                    src='http://blog.zacorp.ru/wp-content/uploads/2016/09/how_to_add_attribute_dynamically_in_html_tag_using_javascript_function.png'
-                    alt='JavaScript'
-                  )
+                  .img-wrapper
+                    img.card-img-top.img-fluid(
+                      src='https://10consulting.com/assets/2012-10-12-typescript-presentation.png'
+                      alt='TypeScript'
+                    )
                   .card-block
-                    h4.card-title JavaScript 2
-                    p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
-                    a.btn.btn-primary(href='#') Go somewhere
+                    .title-wrapper
+                      h4.card-title TypeScript
+                    .description-wrapper
+                      p.card-text It is a free and open-source programming language developed and maintained by Microsoft. It is a strict superset of JavaScript, and adds optional static typing and class-based object-oriented programming to the language. TypeScript may be used to develop JavaScript applications for client-side or server-side (Node.js) execution.
+                    a.btn.btn-block.btn-primary(href='#') Start Now
                 .card
-                  img.card-img-top.img-fluid(
-                    src='http://blog.zacorp.ru/wp-content/uploads/2016/09/how_to_add_attribute_dynamically_in_html_tag_using_javascript_function.png'
-                    alt='JavaScript'
-                  )
+                  .img-wrapper
+                    img.card-img-top.img-fluid(
+                      src='http://ithub.hu/images/blog/es6.jpg'
+                      alt='ECMAScript'
+                    )
                   .card-block
-                    h4.card-title JavaScript 3
-                    p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
-                    a.btn.btn-primary(href='#') Go somewhere
-                .card
-                  img.card-img-top.img-fluid(
-                    src='http://blog.zacorp.ru/wp-content/uploads/2016/09/how_to_add_attribute_dynamically_in_html_tag_using_javascript_function.png'
-                    alt='JavaScript'
-                  )
-                  .card-block
-                    h4.card-title JavaScript 4
-                    p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
-                    a.btn.btn-primary(href='#') Go somewhere
-                .card
-                  img.card-img-top.img-fluid(
-                    src='http://blog.zacorp.ru/wp-content/uploads/2016/09/how_to_add_attribute_dynamically_in_html_tag_using_javascript_function.png'
-                    alt='JavaScript'
-                  )
-                  .card-block
-                    h4.card-title JavaScript 5
-                    p.card-text Some quick example text to build on the card title and make up the bulk of the card's content.
-                    a.btn.btn-primary(href='#') Go somewhere
+                    .title-wrapper
+                      h4.card-title ECMAScript
+                    .description-wrapper
+                      p.card-text ECMAScript 6, also known as ECMAScript 2015, is the latest version of the ECMAScript standard. ES6 is a significant update to the language, and the first update to the language since ES5 was standardized in 2009. Implementation of these features in major JavaScript engines is underway now.
+                    a.btn.btn-block.btn-primary(href='#') Start Now
     .section.fp-section.fp-table
       .fp-tableCell
-        .mt-75
-          | Stories
+        .container.stories.fullheight.mt-75
+          .row.flex-items-xs-middle.fullheight
+            .col-xs
+              .owl-carousel.owl-theme.owl-carousel-stories
+                .card
+                  .img-wrapper
+                    img.card-img-top.rounded-circle.mx-auto(
+                      src='https://pbs.twimg.com/profile_images/2187469943/L_400x400.png'
+                      alt='User0 Name0'
+                    )
+                  blockquote.blockquote
+                    p.mb-0 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ante dui, vulputate nec volutpat at, ultricies vitae magna. Morbi lectus dolor, pulvinar sed consequat vel, lobortis quis odio. Vivamus imperdiet, orci quis sagittis porta, nunc arcu convallis sapien, ac posuere neque erat sit amet nisi. Etiam pharetra ultrices mollis.
+                    footer.blockquote-footer
+                      | Someone famous as
+                      | &nbsp;
+                      cite(title='User0 Name0') User0 Name0
+                .card
+                  .img-wrapper
+                    img.card-img-top.rounded-circle.mx-auto(
+                      src='http://static.comicvine.com/uploads/original/11/117031/3647761-kira.jpg'
+                      alt='User1 Name1'
+                    )
+                  blockquote.blockquote
+                    p.mb-0 Duis varius ex in leo placerat tempus. Sed ultricies magna non neque varius, id luctus nunc iaculis. Fusce consectetur interdum tempus. Fusce in odio ac arcu interdum egestas sed vehicula dui. Donec nulla elit, dapibus sed malesuada quis, scelerisque eu urna. Sed condimentum semper est, eu varius magna condimentum sed.
+                    footer.blockquote-footer
+                      | Someone famous as
+                      | &nbsp;
+                      cite(title='User1 Name1') User1 Name1
+                .card
+                  .img-wrapper
+                    img.card-img-top.rounded-circle.mx-auto(
+                      src='https://cornontherobb.files.wordpress.com/2006/06/ryuk.jpg'
+                      alt='User2 Name2'
+                    )
+                  blockquote.blockquote
+                    p.mb-0 Vestibulum ultrices molestie augue. Nullam porttitor lacus tortor, sit amet vehicula ipsum imperdiet nec. Nam vel neque ante. Vivamus diam ligula, scelerisque non massa egestas, tempor finibus eros.
+                    footer.blockquote-footer
+                      | Someone famous as
+                      | &nbsp;
+                      cite(title='User2 Name2') User2 Name2
+                .card
+                  .img-wrapper
+                    img.card-img-top.rounded-circle.mx-auto(
+                      src='http://st-listas.20minutos.es/images/2013-02/355803/3924435_640px.jpg?1367703586'
+                      alt='User3 Name3'
+                    )
+                  blockquote.blockquote
+                    p.mb-0 Mauris quis posuere tellus. Praesent ante felis, commodo eu est eget, dictum cursus sem. Suspendisse porta augue nisi, ut pulvinar urna scelerisque eu. Sed nibh lacus, sollicitudin vel consequat sed, efficitur at dui.
+                    footer.blockquote-footer
+                      | Someone famous as
+                      | &nbsp;
+                      cite(title='User3 Name3') User3 Name3
     .section.fp-section.fp-table
       .fp-tableCell
-        .mt-75
-          | News
+        .container.news.fullheight.mt-75
+          .row.flex-items-xs-middle.fullheight
+            .col-xs
+              .owl-carousel.owl-theme.owl-carousel-news
+                .card
+                  .row
+                    .col-xs-4
+                      img.img-responsive.img-fluid(
+                        src='https://i.imgflip.com/q7ugi.jpg'
+                        alt='This is what we started'
+                      )
+                    .col-xs-8
+                      blockquote.blockquote
+                        h4 Some other news
+                        p.mb-0 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ante dui, vulputate nec volutpat at, ultricies vitae magna. Morbi lectus dolor, pulvinar sed consequat vel, lobortis quis odio. Vivamus imperdiet, orci quis sagittis porta, nunc arcu convallis sapien, ac posuere neque erat sit amet nisi. Etiam pharetra ultrices mollis.
+                        footer.blockquote-footer
+                          | Ruslan Lekhman
+                          | &nbsp;
+                          cite(title='TutorialJS') TutorialJS
+                          | &nbsp;
+                          span.text-muted 13/12/2016
+                .card
+                  .row
+                    .col-xs-4
+                      img.img-responsive.img-fluid(
+                        src='https://s-media-cache-ak0.pinimg.com/564x/56/e7/ae/56e7aee6d26ed45b56b9b3538a44cf38.jpg'
+                        alt='This is what we started'
+                      )
+                    .col-xs-8
+                      blockquote.blockquote
+                        h4 This is what we started
+                        p.mb-0 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ante dui, vulputate nec volutpat at, ultricies vitae magna. Morbi lectus dolor, pulvinar sed consequat vel, lobortis quis odio. Vivamus imperdiet, orci quis sagittis porta, nunc arcu convallis sapien, ac posuere neque erat sit amet nisi. Etiam pharetra ultrices mollis.
+                        footer.blockquote-footer
+                          | Ruslan Lekhman
+                          | &nbsp;
+                          cite(title='TutorialJS') TutorialJS
+                          | &nbsp;
+                          span.text-muted 13/12/2016

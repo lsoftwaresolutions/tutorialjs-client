@@ -1,0 +1,25 @@
+.no-content {
+  background-color: #20da9b;
+  height: 100%;
+
+  svg {
+    margin: 0 auto;
+    display: block;
+    top: 50px;
+    position: relative;
+  }
+
+  polygon {
+    transform: rotateY(-180deg) scale(0);
+    transition: all 0.4s cubic-bezier(0.590, 0.720, 0.375, 1.650);
+    transform-origin: center;
+  }
+
+  polygon.processed {
+    transform: rotateY(0deg) scale(1);
+  }
+
+  .white {
+    background-color: #fff;
+  }
+}

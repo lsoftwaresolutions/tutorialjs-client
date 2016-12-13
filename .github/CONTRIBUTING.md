@@ -1,6 +1,6 @@
 ## Read and contribute to the Wiki
 
-Make sure you read the [Wiki](https://github.com/lekhmanrus/tutorialjs-client/wiki).
+Make sure you read the [Wiki](https://github.com/lsoftwaresolutions/tutorialjs-client/wiki).
 
 ## Submitting Pull Requests
 

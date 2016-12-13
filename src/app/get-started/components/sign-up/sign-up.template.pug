@@ -1,0 +1,102 @@
+section.sign-up(tjsMaterialize)
+  form(
+    '(ngSubmit)'='signUp()'
+    '#signUpForm'='ngForm'
+  )
+    .container
+      .row
+        .col-xs
+        .col-xs-12.col-sm-10.col-md-9.col-lg-8.col-xl-7.text-xs-center
+          .card
+            br
+            .row
+              .col-xs
+              .col-xs-8.col-sm-7.col-md-6.col-lg-5.col-xl-5.text-xs-center
+                img.img-responsive(
+                  [src]='"../../assets/images/logo.svg"'
+                  alt='TutorialJS'
+                )
+              .col-xs
+            hr
+            .container-fluid.text-xs-left
+              .row
+                .col-xs
+                .col-xs-12
+                  .card-block.text-xs-center.pa-0
+                    h4.card-title Sign Up
+                  .row
+                    .col-md-6
+                      .form-group.label-floating
+                        label.control-label(for='login') User Name
+                        input#login.form-control(
+                          name='login'
+                          type='text'
+                          '[(ngModel)]'='signUpModel.login'
+                          '#login'='ngModel'
+                          required
+                          minlength='6'
+                          maxlength='20'
+                        )
+                        small.text-danger('*ngIf'='!login.valid && !login.pristine')
+                          span('*ngIf'='login.errors?.required') User Name is required.
+                          span('*ngIf'='login.errors?.minlength') User Name must be longer than 6 characters.
+                          span('*ngIf'='login.errors?.maxlength') User Name must be shorter than 20 characters.
+                    .col-md-6
+                      .form-group.label-floating
+                        label.control-label(for='email') Email address
+                        input#email.form-control(
+                          name='email'
+                          type='email'
+                          '[(ngModel)]'='signUpModel.email'
+                          '#email'='ngModel'
+                          required
+                          email
+                        )
+                        small.text-danger('*ngIf'='!email.valid && !email.pristine')
+                          span('*ngIf'='email.errors?.required') Email is required.
+                          span('*ngIf'='email.errors?.email') Email is not valid.
+                  .row
+                    .col-md-6
+                      .form-group.label-floating
+                        label.control-label(for='password') Password
+                        input#password.form-control(
+                          name='password'
+                          type='password'
+                          '[(ngModel)]'='signUpModel.password'
+                          '#password'='ngModel'
+                          required
+                          minlength='6'
+                        )
+                        small.text-danger('*ngIf'='!password.valid && !password.pristine')
+                          span('*ngIf'='password.errors?.required') Password is required.
+                          span('*ngIf'='password.errors?.minlength') Password must be longer than 6 characters.
+                    .col-md-6
+                      .form-group.label-floating
+                        label.control-label(for='confirmPassword') Confirm Password
+                        input#confirmPassword.form-control(
+                          name='confirmPassword'
+                          type='password'
+                          '[(ngModel)]'='signUpModel.confirmPassword'
+                          '#confirmPassword'='ngModel'
+                          required
+                          '[equalTo]'='password'
+                        )
+                        small.text-danger('*ngIf'='!confirmPassword.valid && !confirmPassword.pristine')
+                          span('*ngIf'='confirmPassword.errors?.required') Please confirm you Password. Type it again.
+                          span('*ngIf'='confirmPassword.errors?.equalTo') Passwords must match.
+                .col-xs
+            .card-block.pt-0.pl-1.pr-1.text-xs-left
+              button.btn.btn-success.float-xs-right(
+                type='submit'
+                role='button'
+                '[disabled]'='!signUpForm.form.valid'
+              )
+                i.fa.fa-check
+                | &nbsp;
+                | Sign Up
+              button.btn.btn-link.btn-xs.text-primary.pt-1(
+                routerLink='/login'
+                type='button'
+                role='button'
+              ) Already registered?
+        .col-xs

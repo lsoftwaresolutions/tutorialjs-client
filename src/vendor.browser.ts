@@ -14,6 +14,14 @@ import '@angular/forms';
 import '@angular/http';
 import '@angular/router';
 
+// Other
+import 'ng2-resource-rest';
+import '@ng-bootstrap/ng-bootstrap';
+import 'ng2-fullpage';
+import 'ng2-slim-loading-bar';
+import 'ng2-validation';
+import 'ng2-webstorage';
+
 // AngularClass
 import '@angularclass/hmr';
 
@@ -28,7 +36,7 @@ import 'jquery';
 import 'owl.carousel';
 
 // jQuery Color
-import 'jquery-color'; // unused
+// import 'jquery-color'; // unused
 
 // Bootstrap
 import 'bootstrap-loader';

@@ -1,9 +1,8 @@
 import { browser, by, element } from 'protractor';
 
-describe('App', () => {
+describe('Get Started', () => {
 
   beforeEach(() => {
-    // change hash depending on router LocationStrategy
     browser.get('/get-started');
   });
 

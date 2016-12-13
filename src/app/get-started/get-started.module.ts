@@ -1,27 +1,30 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, PreloadAllModules } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { MnFullpageDirective, MnFullpageService } from 'ng2-fullpage';
+import { CoreModule } from '../core';
 
 import { ROUTES } from './get-started.routes';
 import { GetStartedComponent } from './components/get-started';
+import { SignInComponent } from './components/sign-in';
+import { SignUpComponent } from './components/sign-up';
+import { PasswordResetComponent } from './components/password-reset';
 
 @NgModule({
+  imports: [
+    RouterModule.forChild(ROUTES),
+    CoreModule
+  ],
+  exports: [
+    GetStartedComponent,
+    SignInComponent,
+    SignUpComponent,
+    PasswordResetComponent
+  ],
   declarations: [
     GetStartedComponent,
-    MnFullpageDirective
-  ],
-  imports: [
-    CommonModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
-    NgbModule.forRoot(),
-    SlimLoadingBarModule.forRoot()
-  ],
-  providers: [
-    MnFullpageService
+    SignInComponent,
+    SignUpComponent,
+    PasswordResetComponent
   ]
 })
 
