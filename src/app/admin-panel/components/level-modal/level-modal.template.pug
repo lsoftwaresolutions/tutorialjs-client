@@ -1,0 +1,81 @@
+section.level-modal(tjsMaterialize)
+  form(
+    '(ngSubmit)'='save()'
+    '#levelForm'='ngForm'
+  )
+    .modal-header
+      button.close(
+        type='button'
+        role='button'
+        aria-label='Close'
+        '(click)'='modalInstance.dismiss()'
+      )
+        span(aria-hidden='true') ×
+      h4.modal-title
+        span('*ngIf'='!data.id')
+          | Add New Level
+        span('*ngIf'='data.id')
+          | Edit Level
+    .modal-body('*ngIf'='data')
+      .form-group.label-floating
+        label.control-label(for='name') Name
+        input#name.form-control(
+          name='name'
+          type='text'
+          '[(ngModel)]'='data.name'
+          '#name'='ngModel'
+          required
+        )
+        small.text-danger('*ngIf'='!name.valid && !name.pristine')
+          span('*ngIf'='name.errors?.required') Name is required.
+      .form-group.label-floating
+        label.control-label(for='description') Description
+        textarea#description.form-control(
+          tjsAutosize
+          name='description'
+          type='text'
+          '[(ngModel)]'='data.description'
+          '#description'='ngModel'
+        )
+        small.text-danger('*ngIf'='!description.valid && !description.pristine')
+          span('*ngIf'='description.errors?.required') Description is required.
+      .form-group.label-floating
+        label.control-label(for='order') Order
+        input#order.form-control(
+          name='order'
+          type='number'
+          '[(ngModel)]'='data.order'
+          '#order'='ngModel'
+          required
+          '[min]'='1'
+        )
+        small.text-danger('*ngIf'='!order.valid && !order.pristine')
+          span('*ngIf'='order.errors?.required') Order is required.
+          span('*ngIf'='order.errors?.min') Order must be higher than 0.
+      .form-group
+        .togglebutton
+          label(for='isAvailable')
+            input#isAvailable(
+              name='isAvailable'
+              type='checkbox'
+              '[(ngModel)]'='data.isAvailable'
+              '#isAvailable'='ngModel'
+            )
+            | Is Available?
+    .modal-footer
+      button.btn.btn-secondary(
+        type='button'
+        role='button'
+        '(click)'='modalInstance.dismiss()'
+      )
+        i.fa.fa-fw.fa-ban
+        | &nbsp;
+        | Close
+      button.btn.btn-success(
+        type='button'
+        role='button'
+        '(click)'='save()'
+      )
+        i.fa.fa-fw.fa-floppy-o
+        | &nbsp;
+        | Save

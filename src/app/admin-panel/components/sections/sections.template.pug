@@ -1,0 +1,118 @@
+section.card.sections(tjsMaterialize)
+  .card-block
+    h4.card-title
+      i.fa.fa-archive
+      | &nbsp;
+      | Sections
+      small('*ngIf'='sections?.length')
+        | &nbsp;
+        span.tag.tag-pill.tag-default {{ sections.length }}
+  .table-responsive
+    table.table.table-hover.mb-0
+      thead.thead-inverse
+        tr
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-pencil
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-link
+          th Image
+          th Name
+          th Description
+          th Created By
+          th Updated By
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-trash
+      tbody
+        tr(
+          '*ngFor'='let section of sections'
+          '[ngClass]'='{ "table-danger": !section.isAvailable }'
+        )
+          td.text-xs-center
+            button.btn.btn-primary(
+              type='button'
+              role='button'
+              '(click)'='edit(section, $event)'
+              ngbTooltip='Edit Section'
+              placement='top'
+            )
+              i.fa.fa-pencil
+          td.text-xs-center
+            button.btn.btn-info(
+              type='button'
+              role='button'
+              routerLink='/admin/home'
+              ngbTooltip='Open Section'
+              placement='top'
+            )
+              i.fa.fa-link
+          td
+            div('*ngIf'='section.image')
+              template('#tipSectionImage'='')
+                img.img.img-section-tooltip.img-rounded('[src]'='section.image')
+              .img.img-section.img-rounded-circle-hover(
+                '[ngStyle]'='{ backgroundImage: "url(\'" + section.image + "\')" }'
+                '[ngbTooltip]'='tipSectionImage'
+                placement='top'
+              )
+          th
+            | {{ section.name }}
+            small('*ngIf'='section.sectionsCount')
+              span.tag.tag-info.float-xs-right {{ section.sectionsCount }} sections
+          td {{ section.description }}
+          td
+            button.btn.btn-info(
+              type='button'
+              role='button'
+              '[routerLink]'='[ "/users", section.createdBy._id ]'
+              ngbTooltip='Open Users Profile'
+              placement='top'
+              '*ngIf'='section.createdBy?._id'
+            ) {{ section.createdBy.login }}
+          td
+            button.btn.btn-info(
+              type='button'
+              role='button'
+              '[routerLink]'='[ "/users", section.updatedBy._id ]'
+              ngbTooltip='Open Users Profile'
+              placement='top'
+              '*ngIf'='section.updatedBy?._id'
+            ) {{ section.updatedBy.login }}
+          td.text-xs-center
+            button.btn.btn-danger(
+              type='button'
+              role='button'
+              '(click)'='remove(section, $event)'
+              ngbTooltip='Remove Section'
+              placement='top'
+            )
+              i.fa.fa-trash
+  .alert.alert-info.mb-0(
+    role='alert'
+    '*ngIf'='!sections?.length'
+  )
+    | No sections yet.
+    ul
+      li Try to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='refresh()'
+        ) refresh
+        | &nbsp;
+        | data.
+      li
+        | Would you like to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='add()'
+        ) add one
+        | ?
+  .bottom-right-actions-container
+    button.btn.btn-primary.btn-fab(
+      '(click)'='add()'
+      ngbTooltip='Add New Section'
+      placement='top'
+      container='body'
+    )
+      i.fa.fa-plus

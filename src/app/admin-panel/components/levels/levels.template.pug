@@ -1,0 +1,95 @@
+section.card.levels(tjsMaterialize)
+  .card-block
+    h4.card-title
+      i.fa.fa-archive
+      | &nbsp;
+      | Levels
+      small('*ngIf'='levels?.length')
+        | &nbsp;
+        span.tag.tag-pill.tag-default {{ levels.length }}
+  .table-responsive
+    table.table.table-hover.mb-0
+      thead.thead-inverse
+        tr
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-pencil
+          th Name
+          th Description
+          th Created By
+          th Updated By
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-trash
+      tbody
+        tr(
+          '*ngFor'='let level of levels'
+          '[ngClass]'='{ "table-danger": !level.isAvailable }'
+        )
+          td.text-xs-center
+            button.btn.btn-primary(
+              type='button'
+              role='button'
+              '(click)'='edit(level, $event)'
+              ngbTooltip='Edit Level'
+              placement='top'
+            )
+              i.fa.fa-pencil
+          th
+            | {{ level.name }}
+          td {{ level.description }}
+          td
+            button.btn.btn-info(
+              type='button'
+              role='button'
+              '[routerLink]'='[ "/users", level.createdBy._id ]'
+              ngbTooltip='Open Users Profile'
+              placement='top'
+              '*ngIf'='level.createdBy?._id'
+            ) {{ level.createdBy.login }}
+          td
+            button.btn.btn-info(
+              type='button'
+              role='button'
+              '[routerLink]'='[ "/users", level.updatedBy._id ]'
+              ngbTooltip='Open Users Profile'
+              placement='top'
+              '*ngIf'='level.updatedBy?._id'
+            ) {{ level.updatedBy.login }}
+          td.text-xs-center
+            button.btn.btn-danger(
+              type='button'
+              role='button'
+              '(click)'='remove(level, $event)'
+              ngbTooltip='Remove Level'
+              placement='top'
+            )
+              i.fa.fa-trash
+  .alert.alert-info.mb-0(
+    role='alert'
+    '*ngIf'='!levels?.length'
+  )
+    | No levels yet.
+    ul
+      li Try to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='refresh()'
+        ) refresh
+        | &nbsp;
+        | data.
+      li
+        | Would you like to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='add()'
+        ) add one
+        | ?
+  .bottom-right-actions-container
+    button.btn.btn-primary.btn-fab(
+      '(click)'='add()'
+      ngbTooltip='Add New Level'
+      placement='top'
+      container='body'
+    )
+      i.fa.fa-plus

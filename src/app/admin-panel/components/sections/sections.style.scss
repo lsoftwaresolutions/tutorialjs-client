@@ -1,0 +1,18 @@
+.sections {
+
+}
+
+.img {
+  &.img-section {
+    width: 35px;
+    height: 35px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-color: #aaa;
+  }
+
+  &.img-section-tooltip {
+    max-width: 184px;
+  }
+}

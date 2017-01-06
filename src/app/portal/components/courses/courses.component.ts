@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 
 export class CoursesComponent implements OnInit {
   constructor() {
-    console.log('hello `Home` component');
+    console.log('hello `Courses` component');
   }
 
   ngOnInit(): void { }

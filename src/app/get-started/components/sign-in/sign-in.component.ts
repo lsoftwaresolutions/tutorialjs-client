@@ -30,13 +30,16 @@ export class SignInComponent {
     private storage: LocalStorageService,
     private router: Router,
     private authService: AuthService,
-    userService: UserService
+    private userService: UserService
   ) {
     console.log('hello `Sign In` component');
-    userService.current()
+    this.userService.current()
       .$observable
       .subscribe(
-        (user: IUser) => router.navigate(['/home'])
+        (user: IUser) => {
+          this.storage.store('currentUser', user);
+          this.router.navigate(['/home']);
+        }
       );
   }
 
@@ -48,10 +51,18 @@ export class SignInComponent {
       .$observable
       .subscribe(
         (authInfo: IAuth) => {
+          this.storage.store('currentUser', authInfo.user);
           this.router.navigate(['/home']);
           this.toastr.success(`Hi ${authInfo.user.firstname || authInfo.user.login}.`, 'Welcome!');
         },
-        (error: any) => this.toastr.error((error && error.message) ? error.message : 'Something went wrong....', 'Oops!')
+        (error: any) => {
+          this.storage.clear('currentUser');
+          let message: string = 'Something went wrong...';
+          if (error && error.message) {
+            message = error.message;
+          }
+          this.toastr.error(message, 'Oops!');
+        }
       );
   }
 }

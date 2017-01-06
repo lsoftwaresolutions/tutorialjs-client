@@ -52,7 +52,13 @@ export class PasswordResetComponent implements OnInit {
           this.toastr.success(`An email was sent to ${this.passwordResetModel.email}.`, 'Success!');
           this.router.navigate(['/']);
         },
-        (error: any) => this.toastr.error((error && error.message) ? error.message : 'Something went wrong....', 'Oops!')
+        (error: any) => {
+          let message: string = 'Something went wrong...';
+          if (error && error.message) {
+            message = error.message;
+          }
+          this.toastr.error(message, 'Oops!');
+        }
       );
   }
 }

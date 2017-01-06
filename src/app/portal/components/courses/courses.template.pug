@@ -1,2 +1,9 @@
-section.courses(tjsMaterialize)
-  | courses
+section.card.courses(tjsMaterialize)
+  .card-block
+    h4.card-title
+      i.fa.fa-archive
+      | &nbsp;
+      | Courses
+      small('*ngIf'='courses?.length')
+        | &nbsp;
+        span.tag.tag-pill.tag-default {{ courses.length }}

@@ -58,6 +58,12 @@ section.get-started.bg-animated(tjsMaterialize)
               a.nav-link(routerLink='/stories') Stories
             li.nav-item(routerLinkActive='active')
               a.nav-link(routerLink='/news') News
+            li.nav-item('*ngIf'='user?.role === "admin"')
+            li.nav-item(
+              '*ngIf'='user?.role === "admin"'
+              routerLinkActive='active'
+            )
+              a.nav-link.admin-link(routerLink='/admin') Admin Panel
             li.nav-item
           ul.nav.navbar-nav.float-lg-right('*ngIf'="user")
             li.nav-item(routerLinkActive='active')
@@ -68,11 +74,14 @@ section.get-started.bg-animated(tjsMaterialize)
                   | &nbsp;
                   strong {{ user.firstname || user.login }}
             li.nav-item
-              a.nav-link.pointer('(click)'='logout()')
+              a.nav-link.pointer(
+                '(click)'='logout()'
+                ngbTooltip='Sign Out'
+                placement='left'
+                container='body'
+              )
                 i.fa.fa-sign-out
-                | &nbsp;
-                | Sign Out
-          form.form-inline.text-xs-center.float-lg-right('*ngIf'="!user")
+          form.form-inline.text-xs-center.float-lg-right('*ngIf'='!user')
             a.btn.align-middle.btn-raised.btn-default.mt-1.mb-1.mr-1(
               routerLink='/login'
               type='button'

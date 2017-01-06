@@ -135,6 +135,10 @@ module.exports = function (options) {
       module: false,
       clearImmediate: false,
       setImmediate: false
+    },
+
+    performance: {
+      hints: false
     }
 
   });

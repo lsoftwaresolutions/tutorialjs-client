@@ -1,15 +1,19 @@
 import { Routes, RouterModule } from '@angular/router';
-import { PortalLayoutComponent } from './components/portal-layout';
+import { AuthUserGuardService } from '../core/services/auth-user-guard';
+import { LayoutComponent } from './components/layout';
 import { HomeComponent } from './components/home';
 import { CoursesComponent } from './components/courses';
+import { ProfileComponent } from './components/profile';
 
 export const ROUTES: Routes = [
   {
     path: '',
-    component: PortalLayoutComponent,
+    component: LayoutComponent,
+    canActivate: [ AuthUserGuardService ],
     children: [
       { path: 'home', component: HomeComponent },
-      { path: 'courses', component: CoursesComponent }
+      { path: 'courses', component: CoursesComponent },
+      { path: 'profile', component: ProfileComponent }
     ]
   }
 ];

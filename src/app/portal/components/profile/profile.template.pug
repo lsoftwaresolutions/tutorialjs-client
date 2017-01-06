@@ -1,0 +1,52 @@
+section.card.profile(tjsMaterialize)
+  .card-block
+    h4.card-title
+      i.fa.fa-cog
+      | &nbsp;
+      | Profile Setting
+    .card-text
+      form(
+        '(ngSubmit)'='save()'
+        '#profileForm'='ngForm'
+      )
+        .row('*ngIf'='user')
+          .col-md-6
+            .form-group.label-floating
+              label.control-label(for='firstname') First Name
+              input#firstname.form-control(
+                name='firstname'
+                type='text'
+                '[(ngModel)]'='user.firstname'
+                '#firstname'='ngModel'
+              )
+              small.text-danger('*ngIf'='!firstname.valid && !firstname.pristine')
+                span('*ngIf'='firstname.errors?.required') First Name is required.
+          .col-md-6
+            .form-group.label-floating
+              label.control-label(for='lastname') Last Name
+              input#lastname.form-control(
+                name='lastname'
+                type='text'
+                '[(ngModel)]'='user.lastname'
+                '#lastname'='ngModel'
+              )
+              small.text-danger('*ngIf'='!lastname.valid && !lastname.pristine')
+                span('*ngIf'='lastname.errors?.required') Last Name is required.
+        .row
+          .col-sm-6
+            button.btn.btn-block.btn-danger(
+              type='reset'
+              role='button'
+            )
+              i.fa.fa-eraser
+              | &nbsp;
+              | Reset
+          .col-sm-6
+            button.btn.btn-block.btn-success(
+              type='submit'
+              role='button'
+              '[disabled]'='!profileForm.form.valid'
+            )
+              i.fa.fa-floppy-o
+              | &nbsp;
+              | Save

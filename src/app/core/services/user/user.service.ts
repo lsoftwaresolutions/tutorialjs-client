@@ -15,7 +15,7 @@ export class UserService extends APIResourceService {
   query: ResourceMethod<IUserQueryInput, IUser[]>;
 
   @ResourceAction({
-    path: '/{!id}'
+    path: 'users/{!id}'
   })
   get: ResourceMethod<{id: any}, IUser>;
 
@@ -31,23 +31,29 @@ export class UserService extends APIResourceService {
 
   @ResourceAction({
     method: RequestMethod.Put,
-    path: '/{!id}'
+    path: 'users/{!id}'
   })
   update: ResourceMethod<IUserUpdateRequest, IUser>;
 
   @ResourceAction({
     method: RequestMethod.Delete,
-    path: '/{!id}'
+    path: 'users/{!id}'
   })
   remove: ResourceMethod<{ id: any }, any>;
 
-  constructor(http: Http, injector: Injector, private storage: LocalStorageService, private router: Router) {
+  constructor(
+    http: Http,
+    injector: Injector,
+    private storage: LocalStorageService,
+    private router: Router
+  ) {
     super(http, injector);
   }
 
   public logout() {
     this.storage.clear('token');
     this.storage.clear('access_token');
+    this.storage.clear('currentUser');
     this.router.navigate(['/']);
   }
 

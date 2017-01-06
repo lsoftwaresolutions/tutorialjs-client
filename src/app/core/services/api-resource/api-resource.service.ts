@@ -27,7 +27,6 @@ export class APIResourceService extends Resource {
     headers['Accept'] = 'application/json';
     headers['Content-Type'] = 'application/json';
     super.setHeaders(headers);
-    console.log('headers getHeaders', headers);
     return headers;
   }
 
@@ -43,7 +42,7 @@ export class APIResourceService extends Resource {
           if ((<any>error)._body) {
             try {
               subscriber.error(error.json());
-            } catch(e) {
+            } catch (e) {
               subscriber.error(error);
             }
           }

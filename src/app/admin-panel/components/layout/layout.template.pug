@@ -1,0 +1,65 @@
+section.layout(tjsMaterialize)
+  header
+    nav.navbar.navbar-full.navbar-fixed-top.navbar-animated.navbar-header-menu.navbar-top.tjs-bg-yellow-important
+      .container
+        a.navbar-brand.hidden-lg-up(routerLink='/')
+          img.img.img-responsive.img-glow(
+            [src]='"../../assets/images/logo.svg"'
+            alt='TutorialJS'
+          )
+        button.pointer.navbar-toggler.hidden-lg-up.float-xs-right(
+          type='button'
+          data-toggle='collapse'
+          data-target='#header-menu'
+          aria-controls='header-menu'
+          aria-expanded='false'
+          aria-label='Toggle navigation'
+          '(click)'='isCollapsed = !isCollapsed'
+        ) ☰
+        .clearfix
+        #header-menu.collapse.navbar-toggleable-md([ngbCollapse]='isCollapsed')
+          .navbar-body
+            .container
+              a.navbar-brand.hidden-md-down(routerLink='/')
+                img.img.img-responsive.img-glow(
+                  [src]='"../../assets/images/logo.svg"'
+                  alt='TutorialJS'
+                )
+              ul.nav.navbar-nav
+                li.nav-item(routerLinkActive='active')
+                  a.nav-link(routerLink='/get-started') Get Started
+                li.nav-item(
+                  routerLinkActive='active'
+                  '*ngIf'="user"
+                )
+                  a.nav-link(routerLink='/admin/general') General
+                li.nav-item(routerLinkActive='active')
+                  a.nav-link(routerLink='/admin/courses') Courses
+                li.nav-item(routerLinkActive='active')
+                  a.nav-link(routerLink='/admin/dashboard') Dashboard
+                li.nav-item(routerLinkActive='active')
+                  a.nav-link(routerLink='/admin/chat') Chat
+                li.nav-item(routerLinkActive='active')
+                  a.nav-link(routerLink='/admin/news') News
+                li.nav-item
+                li.nav-item
+                  a.nav-link.tjs-teal-important(routerLink='/home') Portal
+                li.nav-item
+              ul.nav.navbar-nav.float-lg-right('*ngIf'="user")
+                li.nav-item(routerLinkActive='active')
+                  a.nav-link(routerLink='/profile')
+                    img.img-responsive.img-avatar('[src]'='user.picture')
+                    span.username
+                      | &nbsp;
+                      strong {{ user.firstname || user.login }}
+                li.nav-item
+                  a.nav-link.pointer(
+                    '(click)'='logout()'
+                    ngbTooltip='Sign Out'
+                    placement='left'
+                    container='body'
+                  )
+                    i.fa.fa-sign-out
+  .content-body
+    .container.mt-2
+      router-outlet

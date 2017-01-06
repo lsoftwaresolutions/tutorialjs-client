@@ -4,9 +4,10 @@ import { RouterModule, PreloadAllModules } from '@angular/router';
 import { CoreModule } from '../core';
 
 import { ROUTES } from './portal.routes';
-import { PortalLayoutComponent } from './components/portal-layout';
+import { LayoutComponent } from './components/layout';
 import { HomeComponent } from './components/home';
 import { CoursesComponent } from './components/courses';
+import { ProfileComponent } from './components/profile';
 
 @NgModule({
   imports: [
@@ -14,14 +15,16 @@ import { CoursesComponent } from './components/courses';
     CoreModule
   ],
   exports: [
-    PortalLayoutComponent,
+    LayoutComponent,
     HomeComponent,
-    CoursesComponent
+    CoursesComponent,
+    ProfileComponent
   ],
   declarations: [
-    PortalLayoutComponent,
+    LayoutComponent,
     HomeComponent,
-    CoursesComponent
+    CoursesComponent,
+    ProfileComponent
   ]
 })
 

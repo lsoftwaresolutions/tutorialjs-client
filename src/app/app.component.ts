@@ -2,7 +2,17 @@
  * Angular 2 decorators and services
  */
 import { Component, ViewEncapsulation, ViewContainerRef } from '@angular/core';
+import {
+  Router,
+  NavigationStart,
+  NavigationEnd,
+  NavigationCancel,
+  NavigationError
+} from '@angular/router';
+import { Subscription } from 'rxjs';
+import { HttpInterceptorService } from 'ng2-http-interceptor';
 import { ToastsManager } from 'ng2-toastr';
+import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 import { AppState } from './app.service';
 
 /*
@@ -16,18 +26,85 @@ import { AppState } from './app.service';
   templateUrl: './app.template.pug'
 })
 export class AppComponent {
-  angularclassLogo = 'assets/img/angularclass-avatar.png';
-  name = 'Angular 2 Webpack Starter';
-  url = 'https://twitter.com/AngularClass';
+  private httpRequestsCount: number = 0;
+  private subscription: Subscription;
+  private isLoading: boolean = false;
+  private isHttpLoading: boolean = false;
+  private isRouterLoading: boolean = false;
 
-  constructor(public appState: AppState, toastr: ToastsManager, vRef: ViewContainerRef) {
+  constructor(
+    public appState: AppState,
+    vRef: ViewContainerRef,
+    router: Router,
+    httpInterceptor: HttpInterceptorService,
+    toastr: ToastsManager,
+    slimLoader: SlimLoadingBarService
+  ) {
     toastr.setRootViewContainerRef(vRef);
+
+    // Listen the http requests to start or complete the slim bar loading
+    httpInterceptor.request().addInterceptor((data: any, method: string) => {
+      this.httpRequestsCount++;
+      if (!this.isLoading) {
+        slimLoader.start();
+        this.isLoading = true;
+        this.isHttpLoading = true;
+      }
+      return data;
+    });
+
+    httpInterceptor.response().addInterceptor((res: any, method: string) => {
+      this.httpRequestsCount--;
+      if (this.httpRequestsCount === 0 && this.isLoading) {
+        if (!this.isRouterLoading) {
+          slimLoader.complete();
+        }
+        this.isLoading = false;
+        this.isHttpLoading = false;
+      }
+      return res;
+    });
+
+    // Listen the navigation events to start or complete the slim bar loading
+    this.subscription = router.events.subscribe((event: any) => {
+      if (event instanceof NavigationStart) {
+        if (!this.isLoading) {
+          slimLoader.start();
+          this.isLoading = true;
+          this.isRouterLoading = true;
+        }
+      }
+      else if (
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError
+      ) {
+        if (this.isLoading) {
+          if (!this.isHttpLoading) {
+            slimLoader.complete();
+          }
+          this.isLoading = false;
+          this.isRouterLoading = false;
+        }
+      }
+    }, () => {
+      if (this.isLoading) {
+        if (!this.isHttpLoading) {
+          slimLoader.complete();
+        }
+        this.isLoading = false;
+        this.isRouterLoading = false;
+      }
+    });
   }
 
   ngOnInit() {
     console.log('Initial App State', this.appState.state);
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }
 
 /*

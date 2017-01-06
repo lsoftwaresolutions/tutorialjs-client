@@ -1,7 +1,7 @@
-/// <reference path="./app/core/services/auth/auth.d.ts" />
-/// <reference path="./app/core/services/core-config/core-config.d.ts" />
-/// <reference path="./app/core/services/password-reset/password-reset.d.ts" />
-/// <reference path="./app/core/services/user/user.d.ts" />
+/// <reference path="./app/core/core.d.ts" />
+/// <reference path="./app/admin-panel/admin-panel.d.ts" />
+/// <reference path="./app/get-started/get-started.d.ts" />
+/// <reference path="./app/portal/portal.d.ts" />
 
 /*
  * Custom Type Definitions

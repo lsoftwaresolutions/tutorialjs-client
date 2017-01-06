@@ -33,10 +33,13 @@ export class SignUpComponent implements OnInit {
     private userService: UserService
   ) {
     console.log('hello `Sign Up` component');
-    userService.current()
+    this.userService.current()
       .$observable
       .subscribe(
-        (user: IUser) => router.navigate(['/home'])
+        (user: IUser) => {
+          this.storage.store('currentUser', user);
+          this.router.navigate(['/home']);
+        }
       );
   }
 
@@ -53,13 +56,29 @@ export class SignUpComponent implements OnInit {
             .$observable
             .subscribe(
               (authInfo: IAuth) => {
+                this.storage.store('currentUser', authInfo.user);
                 this.router.navigate(['/home']);
-                this.toastr.success(`Hi ${authInfo.user.firstname || authInfo.user.login}.`, 'Welcome!');
+                let message: string = `Hi ${authInfo.user.firstname || authInfo.user.login}.`;
+                this.toastr.success(message, 'Welcome!');
               },
-              (error: any) => this.toastr.error((error && error.message) ? error.message : 'Something went wrong....', 'Oops!')
+              (error: any) => {
+                this.storage.clear('currentUser');
+                let message: string = 'Something went wrong...';
+                if (error && error.message) {
+                  message = error.message;
+                }
+                this.toastr.error(message, 'Oops!');
+              }
             );
         },
-        (error: any) => this.toastr.error((error && error.message) ? error.message : 'Something went wrong....', 'Oops!')
+        (error: any) => {
+          this.storage.clear('currentUser');
+          let message: string = 'Something went wrong...';
+          if (error && error.message) {
+            message = error.message;
+          }
+          this.toastr.error(message, 'Oops!');
+        }
       );
   }
 }

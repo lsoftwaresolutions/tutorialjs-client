@@ -1,6 +1,6 @@
-section.portal-layout(tjsMaterialize)
+section.layout(tjsMaterialize)
   header
-    nav.navbar.navbar-full.navbar-fixed-top.navbar-animated.navbar-header-menu.navbar-bottom.tjs-bg-teal-important
+    nav.navbar.navbar-full.navbar-fixed-top.navbar-animated.navbar-header-menu.navbar-top.tjs-bg-teal-important
       .container
         a.navbar-brand.hidden-lg-up(routerLink='/')
           img.img.img-responsive.img-glow(
@@ -39,6 +39,12 @@ section.portal-layout(tjsMaterialize)
               a.nav-link(routerLink='/chat') Chat
             li.nav-item(routerLinkActive='active')
               a.nav-link(routerLink='/news') News
+            li.nav-item('*ngIf'='user?.role === "admin"')
+            li.nav-item(
+              '*ngIf'='user?.role === "admin"'
+              routerLinkActive='active'
+            )
+              a.nav-link.tjs-yellow-important(routerLink='/admin') Admin Panel
             li.nav-item
           ul.nav.navbar-nav.float-lg-right('*ngIf'="user")
             li.nav-item(routerLinkActive='active')
@@ -48,9 +54,12 @@ section.portal-layout(tjsMaterialize)
                   | &nbsp;
                   strong {{ user.firstname || user.login }}
             li.nav-item
-              a.nav-link.pointer('(click)'='logout()')
+              a.nav-link.pointer(
+                '(click)'='logout()'
+                ngbTooltip='Sign Out'
+                placement='left'
+                container='body'
+              )
                 i.fa.fa-sign-out
-                | &nbsp;
-                | Sign Out
   .container.mt-75
     router-outlet

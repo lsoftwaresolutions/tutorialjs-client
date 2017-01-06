@@ -6,6 +6,7 @@ import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularcla
 import { CoreModule } from './core';
 import { GetStartedModule } from './get-started';
 import { PortalModule } from './portal';
+import { AdminPanelModule } from './admin-panel';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -46,7 +47,8 @@ type StoreType = {
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
     CoreModule,
     GetStartedModule,
-    PortalModule
+    PortalModule,
+    AdminPanelModule
   ],
   providers: [
     // expose our Services and Providers into Angular's dependency injection

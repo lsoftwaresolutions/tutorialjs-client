@@ -1,25 +1,24 @@
-.portal-layout {
+.layout {
   .bg-animated {
     transition: background-color 2.5s;
   }
 
-  .mt-75 {
-    margin-top: 75px;
+  .content-body {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 64px);
+    overflow: auto;
   }
 
-  .fullheight {
-    height: 100%;
-
-    &.mt-75 {
-      height: calc(100% - 75px);
-    }
+  .content-body {
+    top: 64px;
   }
 
   nav.navbar.navbar-header-menu {
-    /*border-top: 1px solid #fff;
-    border-bottom: 1px solid transparent;*/
+    /* border-top: 1px solid #fff;
+    border-bottom: 1px solid transparent; */
     background-color: transparent;
-    color: #fff;
+    color: #2c3033;
     padding: 0 1rem;
     height: 64px;
 
@@ -28,8 +27,8 @@
     }
 
     &.navbar-top {
-      /*border-top: 1px solid transparent;
-      border-bottom: 1px solid #fff;*/
+      /* border-top: 1px solid transparent;
+      border-bottom: 1px solid #fff; */
       background-color: #fff;
       color: #2c3033;
 
@@ -47,12 +46,12 @@
     img.img-avatar {
       width: 44px;
       position: relative;
-      top: -11px;
+      top: -9px;
     }
 
     .username {
       position: relative;
-      top: -9px;
+      top: -5px;
     }
 
     .navbar-toggler {
@@ -71,6 +70,7 @@
 
       & > a {
         height: 64px;
+        line-height: 32px;
         padding-left: 1rem;
         padding-right: 1rem;
         font-weight: 700;
@@ -121,6 +121,16 @@
 
     .nav-item:not(:first-of-type) {
       border-top: 1px solid #ddd;
+    }
+
+    .navbar-body {
+      top: 64px;
+      background: #fff;
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height: calc(100% - 64px);
+      overflow: auto;
     }
   }
 }

@@ -1,0 +1,86 @@
+section.news-modal(tjsMaterialize)
+  form(
+    '(ngSubmit)'='save()'
+    '#newsForm'='ngForm'
+  )
+    .modal-header
+      button.close(
+        type='button'
+        role='button'
+        aria-label='Close'
+        '(click)'='modalInstance.dismiss()'
+      )
+        span(aria-hidden='true') ×
+      h4.modal-title
+        span('*ngIf'='!data.id')
+          | Add New News
+        span('*ngIf'='data.id')
+          | Edit News
+    .modal-body('*ngIf'='data')
+      .form-group.label-floating
+        label.control-label(for='name') Name
+        input#name.form-control(
+          name='name'
+          type='text'
+          '[(ngModel)]'='data.name'
+          '#name'='ngModel'
+          required
+        )
+        small.text-danger('*ngIf'='!name.valid && !name.pristine')
+          span('*ngIf'='name.errors?.required') Name is required.
+      .form-group.label-floating
+        label.control-label(for='text') Text
+        froala#text(
+          '[froalaData]'='data.text'
+          '(model)'='onFroalaModelChanged($event)'
+          name='text'
+        )
+      .form-group
+        .togglebutton
+          label(for='isAvailable')
+            input#isAvailable(
+              name='isAvailable'
+              type='checkbox'
+              '[(ngModel)]'='data.isAvailable'
+              '#isAvailable'='ngModel'
+            )
+            | Is Available?
+      .form-group
+        | Image
+        input#image(
+          name='image'
+          type='file'
+          '[(ngModel)]'='file'
+          '[ngModelOptions]'='{ standalone: true }'
+          '#image'='ngModel'
+          '(change)'='fileUploaded($event)'
+        )
+        .input-group
+          input.form-control(
+            type='text'
+            readonly
+            placeholder='Image...'
+          )
+          span.input-group-btn.input-group-sm
+            button.btn.btn-fab.btn-fab-mini(
+              type='button'
+              role='button'
+            )
+              i.fa.fa-upload
+    .modal-footer
+      button.btn.btn-secondary(
+        type='button'
+        role='button'
+        '(click)'='modalInstance.dismiss()'
+      )
+        i.fa.fa-fw.fa-ban
+        | &nbsp;
+        | Close
+      button.btn.btn-success(
+        type='button'
+        role='button'
+        '(click)'='save()'
+      )
+        i.fa.fa-fw.fa-floppy-o
+        | &nbsp;
+        | Save

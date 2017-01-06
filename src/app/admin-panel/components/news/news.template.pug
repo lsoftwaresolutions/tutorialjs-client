@@ -1,0 +1,115 @@
+section.card.news(tjsMaterialize)
+  .card-block
+    h4.card-title
+      i.fa.fa-archive
+      | &nbsp;
+      | News
+      small('*ngIf'='news?.length')
+        | &nbsp;
+        span.tag.tag-pill.tag-default {{ news.length }}
+  .table-responsive
+    table.table.table-hover.mb-0
+      thead.thead-inverse
+        tr
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-pencil
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-link
+          th Image
+          th Name
+          th Text
+          th Created By
+          th Updated By
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-trash
+      tbody
+        tr(
+          '*ngFor'='let newsItem of news'
+          '[ngClass]'='{ "table-danger": !newsItem.isAvailable }'
+        )
+          td.text-xs-center
+            button.btn.btn-primary(
+              type='button'
+              role='button'
+              '(click)'='edit(newsItem, $event)'
+              ngbTooltip='Edit News'
+              placement='top'
+            )
+              i.fa.fa-pencil
+          td.text-xs-center
+            button.btn.btn-info(
+              type='button'
+              role='button'
+              '[routerLink]'='[ "/news", newsItem.id ]'
+              ngbTooltip='Open News'
+              placement='top'
+            )
+              i.fa.fa-link
+          td
+            div('*ngIf'='newsItem.image')
+              template('#tipNewsImage'='')
+                img.img.img-news-tooltip.img-rounded('[src]'='newsItem.image')
+              .img.img-news.img-rounded-circle-hover(
+                '[ngStyle]'='{ backgroundImage: "url(\'" + newsItem.image + "\')" }'
+                '[ngbTooltip]'='tipNewsImage'
+                placement='top'
+              )
+          th {{ newsItem.name }}
+          td('[innerHTML]'='newsItem.text')
+          td
+            button.btn.btn-info(
+              type='button'
+              role='button'
+              '[routerLink]'='[ "/users", newsItem.createdBy._id ]'
+              ngbTooltip='Open Users Profile'
+              placement='top'
+              '*ngIf'='newsItem.createdBy?._id'
+            ) {{ newsItem.createdBy.login }}
+          td
+            button.btn.btn-info(
+              type='button'
+              role='button'
+              '[routerLink]'='[ "/users", newsItem.updatedBy._id ]'
+              ngbTooltip='Open Users Profile'
+              placement='top'
+              '*ngIf'='newsItem.updatedBy?._id'
+            ) {{ newsItem.updatedBy.login }}
+          td.text-xs-center
+            button.btn.btn-danger(
+              type='button'
+              role='button'
+              '(click)'='remove(newsItem, $event)'
+              ngbTooltip='Remove News'
+              placement='top'
+            )
+              i.fa.fa-trash
+  .alert.alert-info.mb-0(
+    role='alert'
+    '*ngIf'='!news?.length'
+  )
+    | No news yet.
+    ul
+      li Try to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='refresh()'
+        ) refresh
+        | &nbsp;
+        | data.
+      li
+        | Would you like to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='add()'
+        ) add one
+        | ?
+  .bottom-right-actions-container
+    button.btn.btn-primary.btn-fab(
+      '(click)'='add()'
+      ngbTooltip='Add New News'
+      placement='top'
+      container='body'
+    )
+      i.fa.fa-plus

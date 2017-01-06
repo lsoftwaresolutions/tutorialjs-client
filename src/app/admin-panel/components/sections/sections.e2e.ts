@@ -1,9 +1,9 @@
 import { browser, by, element } from 'protractor';
 
-describe('Portal Layout', () => {
+describe('Sections', () => {
 
   beforeEach(() => {
-    browser.get('/portal-layout');
+    browser.get('/admin/courses/1');
   });
 
 

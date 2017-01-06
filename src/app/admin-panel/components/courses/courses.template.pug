@@ -1,0 +1,118 @@
+section.card.courses(tjsMaterialize)
+  .card-block
+    h4.card-title
+      i.fa.fa-archive
+      | &nbsp;
+      | Courses
+      small('*ngIf'='courses?.length')
+        | &nbsp;
+        span.tag.tag-pill.tag-default {{ courses.length }}
+  .table-responsive
+    table.table.table-hover.mb-0
+      thead.thead-inverse
+        tr
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-pencil
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-link
+          th Image
+          th Name
+          th Description
+          th Created By
+          th Updated By
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-trash
+      tbody
+        tr(
+          '*ngFor'='let course of courses'
+          '[ngClass]'='{ "table-danger": !course.isAvailable }'
+        )
+          td.text-xs-center
+            button.btn.btn-primary(
+              type='button'
+              role='button'
+              '(click)'='edit(course, $event)'
+              ngbTooltip='Edit Course'
+              placement='top'
+            )
+              i.fa.fa-pencil
+          td.text-xs-center
+            button.btn.btn-info(
+              type='button'
+              role='button'
+              '[routerLink]'='[ "/admin/courses", course.id ]'
+              ngbTooltip='Open Course'
+              placement='top'
+            )
+              i.fa.fa-link
+          td
+            div('*ngIf'='course.image')
+              template('#tipCourseImage'='')
+                img.img.img-course-tooltip.img-rounded('[src]'='course.image')
+              .img.img-course.img-rounded-circle-hover(
+                '[ngStyle]'='{ backgroundImage: "url(\'" + course.image + "\')" }'
+                '[ngbTooltip]'='tipCourseImage'
+                placement='top'
+              )
+          th
+            | {{ course.name }}
+            //- small('*ngIf'='course.sectionsCount')
+            //-   span.tag.tag-info.float-xs-right {{ course.sectionsCount }} sections
+          td {{ course.description }}
+          td
+            button.btn.btn-info(
+              type='button'
+              role='button'
+              '[routerLink]'='[ "/users", course.createdBy._id ]'
+              ngbTooltip='Open Users Profile'
+              placement='top'
+              '*ngIf'='course.createdBy?._id'
+            ) {{ course.createdBy.login }}
+          td
+            button.btn.btn-info(
+              type='button'
+              role='button'
+              '[routerLink]'='[ "/users", course.updatedBy._id ]'
+              ngbTooltip='Open Users Profile'
+              placement='top'
+              '*ngIf'='course.updatedBy?._id'
+            ) {{ course.updatedBy.login }}
+          td.text-xs-center
+            button.btn.btn-danger(
+              type='button'
+              role='button'
+              '(click)'='remove(course, $event)'
+              ngbTooltip='Remove Course'
+              placement='top'
+            )
+              i.fa.fa-trash
+  .alert.alert-info.mb-0(
+    role='alert'
+    '*ngIf'='!courses?.length'
+  )
+    | No courses yet.
+    ul
+      li Try to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='refresh()'
+        ) refresh
+        | &nbsp;
+        | data.
+      li
+        | Would you like to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='add()'
+        ) add one
+        | ?
+  .bottom-right-actions-container
+    button.btn.btn-primary.btn-fab(
+      '(click)'='add()'
+      ngbTooltip='Add New Course'
+      placement='top'
+      container='body'
+    )
+      i.fa.fa-plus

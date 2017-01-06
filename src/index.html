@@ -17,13 +17,267 @@
   <!-- base url -->
   <base href="<%= htmlWebpackPlugin.options.metadata.baseUrl %>">
 
+  <style>
+    @-webkit-keyframes title {
+      0% {
+        opacity: 0;
+        right: 130px;
+      }
+      48% {
+        opacity: 0;
+        right: 130px;
+      }
+      52% {
+        opacity: 1;
+        right: 30px;
+      }
+      70% {
+        opacity: 1;
+        right: 30px;
+      }
+      100% {
+        opacity: 0;
+        right: 30px;
+      }
+    }
+
+    @-moz-keyframes title {
+      0% {
+        opacity: 0;
+        right: 130px;
+      }
+      48% {
+        opacity: 0;
+        right: 130px;
+      }
+      52% {
+        opacity: 1;
+        right: 30px;
+      }
+      70% {
+        opacity: 1;
+        right: 30px;
+      }
+      100% {
+        opacity: 0;
+        right: 30px;
+      }
+    }
+
+    @-webkit-keyframes fade {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @-moz-keyframes fade {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @-webkit-keyframes bg {
+      0% { background-color: #20da9b; }
+      50% { background-color: #db3340; }
+      90% { background-color: #e8b81a; }
+    }
+
+    @-moz-keyframes bg {
+      0% { background-color: #20da9b; }
+      50% { background-color: #db3340; }
+      90% { background-color: #e8b81a; }
+    }
+
+    @-webkit-keyframes blink {
+      0% { opacity: 0; }
+      5% { opacity: 1; }
+      10% { opacity: 0; }
+      15% { opacity: 1; }
+      20% { opacity: 0; }
+      25% { opacity: 1; }
+      30% { opacity: 0; }
+      35% { opacity: 1; }
+      40% {
+        opacity: 0;
+        right: -21px;
+      }
+      45% {
+        opacity: 1;
+        right: 80px;
+      }
+      50% {
+        opacity: 0;
+        right: -21px;
+      }
+      51% { right: -21px; }
+      55% { opacity: 1; }
+      60% { opacity: 0; }
+      65% { opacity: 1; }
+      70% { opacity: 0; }
+      75% { opacity: 1; }
+      80% { opacity: 0; }
+      85% { opacity: 1; }
+      90% {
+        opacity: 0;
+        right: -21px;
+      }
+      95% {
+        opacity: 1;
+        right: 80px;
+      }
+      96% { right: -21px; }
+      100% {
+        opacity: 0;
+        right: -21px;
+      }
+    }
+
+    @-moz-keyframes blink {
+      0% { opacity: 0; }
+      5% { opacity: 1; }
+      10% { opacity: 0; }
+      15% { opacity: 1; }
+      20% { opacity: 0; }
+      25% { opacity: 1; }
+      30% { opacity: 0; }
+      35% { opacity: 1; }
+      40% {
+        opacity: 0;
+        right: -21px;
+      }
+      45% {
+        opacity: 1;
+        right: 80px;
+      }
+      50% {
+        opacity: 0;
+        right: -21px;
+      }
+      51% { right: -21px; }
+      55% { opacity: 1; }
+      60% { opacity: 0; }
+      65% { opacity: 1; }
+      70% { opacity: 0; }
+      75% { opacity: 1; }
+      80% { opacity: 0; }
+      85% { opacity: 1; }
+      90% {
+        opacity: 0;
+        right: -21px;
+      }
+      95% {
+        opacity: 1;
+        right: 80px;
+      }
+      96% { right: -21px; }
+      100% {
+        opacity: 0;
+        right: -21px;
+      }
+    }
+
+    body app .bg-wrap,
+    body app .bg-wrap .wrap,
+    body app .bg-wrap .wrap .bg {
+      background: #0c97ce;
+    }
+
+    body app .bg-wrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    body app .bg .loading {
+      font-family: Arial, sans-serif, arial;
+      color: #fff;
+      background: transparent;
+    }
+
+    .wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -80px;
+      margin-top: -40px;
+    }
+
+    .bg {
+      padding: 30px 30px 30px 0;
+      -moz-animation: bg 1.5s linear infinite;
+      -webkit-animation: bg 1.5s linear infinite;
+      animation: bg 1.5s linear infinite;
+      -moz-box-shadow: inset 0 0 45px 30px #0c97ce;
+      -webkit-box-shadow: inset 0 0 45px 30px #0c97ce;
+      box-shadow: inset 0 0 45px 30px #0c97ce;
+    }
+
+    .loading {
+      position: relative;
+      text-align: right;
+      text-shadow: 0 0 6px #28abe3;
+      height: 20px;
+      width: 150px;
+    }
+
+    .loading span {
+      display: block;
+      text-transform: uppercase;
+      position: absolute;
+      right: 30px;
+      height: 20px;
+      width: 200px;
+      line-height: 20px;
+    }
+
+    .loading span:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: -2px;
+      right: -21px;
+      height: 20px;
+      width: 16px;
+      background: #fff;
+      -moz-box-shadow: 0 0 15px #fff;
+      -webkit-box-shadow: 0 0 15px #fff;
+      box-shadow: 0 0 15px #fff;
+      -moz-animation: blink 3.4s 0.3s infinite;
+      -webkit-animation: blink 3.4s 0.3s infinite;
+      animation: blink 3.4s 0.3s infinite;
+    }
+
+    .loading span.title {
+      -moz-animation: title 3.4s linear 0.3s infinite;
+      -webkit-animation: title 3.4s linear 0.3s infinite;
+      animation: title 3.4s linear 0.3s infinite;
+    }
+
+    .loading span.text {
+      -moz-animation: title 3.4s linear 2s infinite;
+      -webkit-animation: title 3.4s linear 2s infinite;
+      animation: title 3.4s linear 2s infinite;
+      opacity: 0;
+    }
+  </style>
 
 </head>
 
 <body>
 
   <app>
-    Loading...
+    <div class="bg-wrap">
+      <div class="wrap">
+        <div class="bg">
+          <div class="loading">
+            <span class="title">LOADING</span>
+            <span class="text">TUTORIALJS</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </app>
 
   <!-- Google Analytics: change UA-71073175-1 to be your site's ID -->
@@ -41,7 +295,6 @@
   <!-- Webpack Dev Server reload -->
   <script src="/webpack-dev-server.js"></script>
   <% } %>
-
 
 </body>
 </html>

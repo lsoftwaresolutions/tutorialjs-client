@@ -21,6 +21,8 @@ import 'ng2-fullpage';
 import 'ng2-slim-loading-bar';
 import 'ng2-validation';
 import 'ng2-webstorage';
+import 'ng2-http-interceptor';
+import 'ng2-froala-editor/ng2-froala-editor';
 
 // AngularClass
 import '@angularclass/hmr';
@@ -46,6 +48,15 @@ import 'bootstrap-material-design';
 
 // Fullpage
 import 'fullpage.js';
+
+// Autosize
+import 'autosize';
+
+// Sweet Alert 2
+import 'sweetalert2';
+
+// Froala WYSIWYG HTML Editor
+import 'froala-editor/js/froala_editor.pkgd.min';
 
 // TweenLite
 // import 'gsap';

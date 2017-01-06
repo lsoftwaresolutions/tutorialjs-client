@@ -92,10 +92,10 @@ styles:
   tags: true
 
   # Components w/ JavaScript
-  modal: false
-  tooltip: false
-  popover: false
-  carousel: false
+  modal: true
+  tooltip: true
+  popover: true
+  carousel: true
 
   # Utility classes
   utilities: true

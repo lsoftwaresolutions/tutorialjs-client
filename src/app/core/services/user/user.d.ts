@@ -7,7 +7,7 @@ interface IUserQueryInput {
 }
 
 interface IUser {
-  id: number;
+  id: string;
   login: string;
   email: string;
   firstname?: string;
@@ -19,8 +19,8 @@ interface IUser {
   services?: IUserService;
   role?: string;
   picture?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 interface IUserRegistrationRequest {
