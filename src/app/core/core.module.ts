@@ -11,6 +11,9 @@ import { ToastModule, ToastOptions } from 'ng2-toastr';
 import { Ng2Webstorage } from 'ng2-webstorage';
 import { HttpInterceptorModule, HTTP_INTERCEPTOR_PROVIDER } from 'ng2-http-interceptor';
 import { FroalaEditorModule } from 'ng2-froala-editor/ng2-froala-editor';
+import { ColorPickerModule } from 'angular2-color-picker';
+import { Ng2HighchartsModule } from 'ng2-highcharts';
+import { MomentModule } from 'angular2-moment';
 
 
 import { HrefVoidDirective } from './directives/href-void';
@@ -24,9 +27,16 @@ import { AuthAdminGuardService } from './services/auth-admin-guard';
 import { PasswordResetService } from './services/password-reset';
 import { CourseService } from './services/course';
 import { SectionService } from './services/section';
+import { ItemService } from './services/item';
+import { ItemsTypeService } from './services/items-type';
 import { NewsService } from './services/news';
 import { LevelService } from './services/level';
+import { TagService } from './services/tag';
 import { UserService } from './services/user';
+import { ChatService } from './services/chat';
+import { QuestionService } from './services/question';
+import { AnswerService } from './services/answer';
+import { PlaygroundService } from './services/playground';
 
 let options: ToastOptions = new ToastOptions({
   toastLife: 5000,
@@ -48,7 +58,10 @@ let options: ToastOptions = new ToastOptions({
     ToastModule.forRoot(options),
     Ng2Webstorage.forRoot({ prefix: 'tutorialjs', separator: '.' }),
     HttpInterceptorModule,
-    FroalaEditorModule
+    FroalaEditorModule,
+    ColorPickerModule,
+    Ng2HighchartsModule,
+    MomentModule
   ],
   exports: [
     CommonModule,
@@ -63,6 +76,9 @@ let options: ToastOptions = new ToastOptions({
     Ng2Webstorage,
     HttpInterceptorModule,
     FroalaEditorModule,
+    ColorPickerModule,
+    Ng2HighchartsModule,
+    MomentModule,
 
     MnFullpageDirective,
     HrefVoidDirective,
@@ -84,9 +100,16 @@ let options: ToastOptions = new ToastOptions({
     PasswordResetService,
     CourseService,
     SectionService,
+    ItemService,
+    ItemsTypeService,
     NewsService,
     LevelService,
-    UserService
+    TagService,
+    UserService,
+    ChatService,
+    QuestionService,
+    AnswerService,
+    PlaygroundService
   ]
 })
 

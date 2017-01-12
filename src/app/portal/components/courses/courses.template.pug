@@ -1,9 +1,48 @@
-section.card.courses(tjsMaterialize)
-  .card-block
-    h4.card-title
-      i.fa.fa-archive
+section.courses(tjsMaterialize)
+  h4
+    i.fa.fa-archive
+    | &nbsp;
+    | Courses
+    small('*ngIf'='courses?.length')
       | &nbsp;
-      | Courses
-      small('*ngIf'='courses?.length')
+      span.tag.tag-pill.tag-default {{ courses.length }}
+  .row
+    .col-xs-12.col-sm-6.col-md-4.col-lg-4.col-xl-4('*ngFor'='let course of courses')
+      .card('[ngClass]'='{ "card-outline-danger": !course.isAvailable }')
+        .img-wrapper
+          img.card-img-top.img-fluid(
+            '[src]'='course.image'
+            '[alt]'='course.name'
+          )
+        .card-block
+          .title-wrapper
+            h4.card-title {{ course.name }}
+          .description-wrapper
+            p.card-text {{ course.description }}
+          button.btn.btn-block(
+            type='button'
+            role='button'
+            class='btn-{{ course.isAvailable ? "primary" : "danger" }}'
+            '[disabled]'='!course.isAvailable'
+            '[routerLink]'='[ "/courses", course.id ]'
+            ngbTooltip='Start Course'
+            placement='top'
+          )
+            i.fa.fa-play
+            | &nbsp;
+            span('*ngIf'='course.isAvailable') Start Now
+            span('*ngIf'='!course.isAvailable') Not available yet
+  .alert.alert-info.mb-0(
+    role='alert'
+    '*ngIf'='!courses?.length'
+  )
+    | No courses yet.
+    ul
+      li Try to
         | &nbsp;
-        span.tag.tag-pill.tag-default {{ courses.length }}
+        a.alert-link(
+          hrefVoid
+          '(click)'='refresh()'
+        ) refresh
+        | &nbsp;
+        | data.

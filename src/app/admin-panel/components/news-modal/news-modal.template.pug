@@ -80,6 +80,7 @@ section.news-modal(tjsMaterialize)
         type='button'
         role='button'
         '(click)'='save()'
+        '[disabled]'='!newsForm.form.valid'
       )
         i.fa.fa-fw.fa-floppy-o
         | &nbsp;

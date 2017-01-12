@@ -1,5 +1,13 @@
 section.card.levels(tjsMaterialize)
   .card-block
+    .right-actions-container
+      button.btn.btn-primary.btn-fab(
+        '(click)'='add()'
+        ngbTooltip='Add New Level'
+        placement='top'
+        container='body'
+      )
+        i.fa.fa-plus
     h4.card-title
       i.fa.fa-archive
       | &nbsp;
@@ -20,10 +28,7 @@ section.card.levels(tjsMaterialize)
           th.text-xs-center(style='width: 1%')
             i.fa.fa-trash
       tbody
-        tr(
-          '*ngFor'='let level of levels'
-          '[ngClass]'='{ "table-danger": !level.isAvailable }'
-        )
+        tr('*ngFor'='let level of levels')
           td.text-xs-center
             button.btn.btn-primary(
               type='button'
@@ -34,7 +39,7 @@ section.card.levels(tjsMaterialize)
             )
               i.fa.fa-pencil
           th
-            | {{ level.name }}
+            span('[style.color]'='level.color') {{ level.name }}
           td {{ level.description }}
           td
             button.btn.btn-info(
@@ -85,11 +90,3 @@ section.card.levels(tjsMaterialize)
           '(click)'='add()'
         ) add one
         | ?
-  .bottom-right-actions-container
-    button.btn.btn-primary.btn-fab(
-      '(click)'='add()'
-      ngbTooltip='Add New Level'
-      placement='top'
-      container='body'
-    )
-      i.fa.fa-plus

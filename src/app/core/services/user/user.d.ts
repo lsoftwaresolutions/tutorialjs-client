@@ -13,7 +13,7 @@ interface IUser {
   firstname?: string;
   lastname?: string;
   birthday?: Date;
-  levelId?: number;
+  level?: string;
   points?: number;
   reputation?: number;
   services?: IUserService;

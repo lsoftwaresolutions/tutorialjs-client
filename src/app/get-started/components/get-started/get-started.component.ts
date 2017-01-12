@@ -4,6 +4,8 @@ import * as Vivus from 'vivus';
 import { TweenLite, Circ } from 'gsap';
 import { CircleService } from '../../services/circle';
 import { UserService } from '../../../core/services/user';
+import { CourseService } from '../../../core/services/course';
+import { NewsService } from '../../../core/services/news';
 
 
 @Component({
@@ -13,7 +15,9 @@ import { UserService } from '../../../core/services/user';
   selector: 'get-started',  // <get-started></get-started>
   // We need to tell Angular's Dependency Injection which providers are in our app.
   providers: [
-    UserService
+    UserService,
+    CourseService,
+    NewsService
   ],
   // Our list of styles in our component. We may add more to compose many styles together
   styleUrls: [ './get-started.style.scss' ],
@@ -22,14 +26,15 @@ import { UserService } from '../../../core/services/user';
 })
 
 export class GetStartedComponent implements OnInit {
-  public user: IUser;
   private static bgColorsMap: any = {
     1: 'tjs-bg-teal-important',
     2: 'tjs-bg-lightblue-important',
     3: 'tjs-bg-orange-important',
     4: 'tjs-bg-gray-important',
   };
-  // Set our default values
+  public user: IUser;
+  public courses: ICourse[];
+  public news: INews[];
   public isCollapsed: boolean = true;
   private localState = { value: '' };
   private width: number;
@@ -41,13 +46,19 @@ export class GetStartedComponent implements OnInit {
   private target: any;
   private animateHeader: boolean = true;
 
-  constructor(private userService: UserService) {
+  constructor(
+    private userService: UserService,
+    private courseService: CourseService,
+    private newsService: NewsService
+  ) {
     console.log('hello `Get Started` component');
     userService.current()
       .$observable
       .subscribe(
         (user: IUser) => this.user = user
       );
+    this.loadCourses();
+    this.loadNews();
   }
 
   ngOnInit() {
@@ -151,6 +162,32 @@ export class GetStartedComponent implements OnInit {
         items: 1
       });
     }
+  }
+
+  private loadCourses() {
+    this.courseService.query()
+      .$observable
+      .subscribe(
+        (courses: ICourse[]) => this.courses = this.orderCourses(courses)
+      );
+  }
+
+  private orderCourses(courses: ICourse[]): ICourse[] {
+    return courses.sort((lhs: ICourse, rhs: ICourse) => lhs.order - rhs.order);
+  }
+
+  private loadNews() {
+    this.newsService.query()
+      .$observable
+      .subscribe(
+        (news: INews[]) => this.news = this.orderNews(news)
+      );
+  }
+
+  private orderNews(news: INews[]): INews[] {
+    return news
+      .filter((e: INews) => e.isAvailable)
+      .sort((lhs: INews, rhs: INews) => Number(rhs.createdAt) - Number(lhs.createdAt));
   }
 
   private animateLogo() {

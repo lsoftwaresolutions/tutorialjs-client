@@ -1,0 +1,72 @@
+section.card.items-types(tjsMaterialize)
+  .card-block
+    .right-actions-container
+      button.btn.btn-primary.btn-fab(
+        '(click)'='add()'
+        ngbTooltip='Add New Items Type'
+        placement='top'
+        container='body'
+      )
+        i.fa.fa-plus
+    h4.card-title
+      i.fa.fa-archive
+      | &nbsp;
+      | Items Types
+      small('*ngIf'='itemsTypes?.length')
+        | &nbsp;
+        span.tag.tag-pill.tag-default {{ itemsTypes.length }}
+  .table-responsive
+    table.table.table-hover.mb-0
+      thead.thead-inverse
+        tr
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-pencil
+          th Name
+          th Description
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-trash
+      tbody
+        tr('*ngFor'='let itemsType of itemsTypes')
+          td.text-xs-center
+            button.btn.btn-primary(
+              type='button'
+              role='button'
+              '(click)'='edit(itemsType, $event)'
+              ngbTooltip='Edit Items Type'
+              placement='top'
+            )
+              i.fa.fa-pencil
+          th
+            | {{ itemsType.name }}
+          td {{ itemsType.description }}
+          td.text-xs-center
+            button.btn.btn-danger(
+              type='button'
+              role='button'
+              '(click)'='remove(itemsType, $event)'
+              ngbTooltip='Remove Items Type'
+              placement='top'
+            )
+              i.fa.fa-trash
+  .alert.alert-info.mb-0(
+    role='alert'
+    '*ngIf'='!itemsTypes?.length'
+  )
+    | No items types yet.
+    ul
+      li Try to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='refresh()'
+        ) refresh
+        | &nbsp;
+        | data.
+      li
+        | Would you like to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='add()'
+        ) add one
+        | ?

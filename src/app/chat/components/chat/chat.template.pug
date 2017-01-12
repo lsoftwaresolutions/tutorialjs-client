@@ -1,0 +1,56 @@
+section.card.chat(
+  tjsMaterialize
+  '*ngIf'='user'
+)
+  .card-block
+    h4.card-title
+      i.fa.fa-home
+      | &nbsp;
+      | Chat
+    .card-text
+      form(
+        '(ngSubmit)'='save()'
+        '#chatForm'='ngForm'
+      )
+        .form-group.label-floating
+          label.control-label(for='message') Your message
+          froala#message(
+            '[froalaOptions]'='froalaOptions'
+            '[froalaData]'='data.message'
+            '(model)'='onFroalaModelChanged($event)'
+            name='message'
+          )
+          .right-send-container
+            button.btn.btn-primary.btn-fab(
+              type='submit'
+              role='button'
+              ngbTooltip='Send Message'
+              placement='top'
+              container='body'
+            '[disabled]'='!chatForm.form.valid && data.message.length > 0 && data.message !== "<p></p>"'
+            )
+              i.fa.fa-paper-plane-o
+      .chat-wrapper
+        ul
+          li(
+            '*ngFor'='let message of chat'
+            '[ngClass]'='{ "you": user.id === message.user._id, "other": user.id !== message.user._id }'
+          )
+            template('#tipChatUserImage'='')
+              | Open "
+              strong(style='color: #0c97ce;') {{ message.user.login }}
+              | " Profile
+            a.user(
+              role='button'
+              '[routerLink]'='[ "/users", message.user._id ]'
+              '[ngbTooltip]'='tipChatUserImage'
+              placement='top'
+              container='body'
+              '*ngIf'='message.user?._id'
+            )
+              .img.img-avatar.img-rounded-circle-hover(
+                '[ngStyle]'='{ backgroundImage: "url(\'" + message.user.picture + "\')" }'
+              )
+            .date {{ message.createdAt | amTimeAgo }}
+            .message
+              p('[innerHtml]'='message.message')

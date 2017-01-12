@@ -441,3 +441,14 @@ body {
   right: 50px;
   text-align: right;
 }
+
+.right-actions-container {
+  position: absolute;
+  right: -28px;
+  top: 11px;
+}
+
+color-picker > .color-picker {
+  margin-left: calc(-50% - 115px);
+  margin-top: -30px;
+}

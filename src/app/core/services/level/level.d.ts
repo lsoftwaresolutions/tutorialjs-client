@@ -9,7 +9,6 @@ interface ILevelQueryInput {
 
 interface ILevel {
   id?: string;
-  courseId?: string;
   name: string;
   description: string;
   color?: string;

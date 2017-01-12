@@ -1,7 +1,7 @@
 section.card.news(tjsMaterialize)
   .card-block
     h4.card-title
-      i.fa.fa-archive
+      i.fa.fa-newspaper-o
       | &nbsp;
       | News
       small('*ngIf'='news?.length')
@@ -13,8 +13,6 @@ section.card.news(tjsMaterialize)
         tr
           th.text-xs-center(style='width: 1%')
             i.fa.fa-pencil
-          th.text-xs-center(style='width: 1%')
-            i.fa.fa-link
           th Image
           th Name
           th Text
@@ -36,15 +34,6 @@ section.card.news(tjsMaterialize)
               placement='top'
             )
               i.fa.fa-pencil
-          td.text-xs-center
-            button.btn.btn-info(
-              type='button'
-              role='button'
-              '[routerLink]'='[ "/news", newsItem.id ]'
-              ngbTooltip='Open News'
-              placement='top'
-            )
-              i.fa.fa-link
           td
             div('*ngIf'='newsItem.image')
               template('#tipNewsImage'='')

@@ -18,48 +18,67 @@ section.layout(tjsMaterialize)
         ) ☰
         .clearfix
         #header-menu.collapse.navbar-toggleable-md([ngbCollapse]='isCollapsed')
-          a.navbar-brand.hidden-md-down(routerLink='/')
-            img.img.img-responsive.img-glow(
-              [src]='"../../assets/images/logo.svg"'
-              alt='TutorialJS'
-            )
-          ul.nav.navbar-nav
-            li.nav-item(routerLinkActive='active')
-              a.nav-link(routerLink='/get-started') Get Started
-            li.nav-item(
-              routerLinkActive='active'
-              '*ngIf'="user"
-            )
-              a.nav-link(routerLink='/home') Home
-            li.nav-item(routerLinkActive='active')
-              a.nav-link(routerLink='/courses') Courses
-            li.nav-item(routerLinkActive='active')
-              a.nav-link(routerLink='/dashboard') Dashboard
-            li.nav-item(routerLinkActive='active')
-              a.nav-link(routerLink='/chat') Chat
-            li.nav-item(routerLinkActive='active')
-              a.nav-link(routerLink='/news') News
-            li.nav-item('*ngIf'='user?.role === "admin"')
-            li.nav-item(
-              '*ngIf'='user?.role === "admin"'
-              routerLinkActive='active'
-            )
-              a.nav-link.tjs-yellow-important(routerLink='/admin') Admin Panel
-            li.nav-item
-          ul.nav.navbar-nav.float-lg-right('*ngIf'="user")
-            li.nav-item(routerLinkActive='active')
-              a.nav-link(routerLink='/profile')
-                img.img-responsive.img-avatar('[src]'='user.picture')
-                span.username
-                  | &nbsp;
-                  strong {{ user.firstname || user.login }}
-            li.nav-item
-              a.nav-link.pointer(
-                '(click)'='logout()'
-                ngbTooltip='Sign Out'
-                placement='left'
-                container='body'
-              )
-                i.fa.fa-sign-out
-  .container.mt-75
-    router-outlet
+          .navbar-body
+            .container
+              a.navbar-brand.hidden-md-down(routerLink='/')
+                img.img.img-responsive.img-glow(
+                  [src]='"../../assets/images/logo.svg"'
+                  alt='TutorialJS'
+                )
+              ul.nav.navbar-nav
+                li.nav-item(routerLinkActive='active')
+                  a.nav-link(routerLink='/get-started') Get Started
+                li.nav-item(
+                  routerLinkActive='active'
+                  '*ngIf'='user'
+                )
+                  a.nav-link(routerLink='/home') Home
+                li.nav-item(routerLinkActive='active')
+                  a.nav-link(routerLink='/courses') Courses
+                li.nav-item(routerLinkActive='active')
+                  a.nav-link(routerLink='/chat') Chat
+                li.nav-item(routerLinkActive='active')
+                  a.nav-link(routerLink='/news') News
+                li.nav-item('*ngIf'='user?.role === "admin"')
+                li.nav-item(
+                  '*ngIf'='user?.role === "admin"'
+                  routerLinkActive='active'
+                )
+                  a.nav-link.tjs-yellow-important(routerLink='/admin') Admin Panel
+                li.nav-item
+              ul.nav.navbar-nav.float-lg-right('*ngIf'="user")
+                li.nav-item(routerLinkActive='active')
+                  a.nav-link(routerLink='/profile')
+                    .img.img-avatar.img-rounded-circle-hover(
+                      '[ngStyle]'='{ backgroundImage: "url(\'" + user.picture + "\')" }'
+                    )
+                    span.username
+                      | &nbsp;
+                      strong {{ user.firstname || user.login }}
+                li.nav-item
+                  a.nav-link.pointer(
+                    '(click)'='logout()'
+                    ngbTooltip='Sign Out'
+                    placement='left'
+                    container='body'
+                  )
+                    i.fa.fa-sign-out
+  .content-body
+    .container.mt-2
+      .row
+        .col-md-9
+          router-outlet
+        .col-md-3
+          .card
+            .card-block
+              h6.mt-0.mb-0 Statistic
+            ul.list-group.list-group-flush
+              li.list-group-item
+                | lekhmanrus
+                .tag.tag-info.float-xs-right 100%
+              li.list-group-item
+                | test
+                .tag.tag-info.float-xs-right 75%
+              li.list-group-item
+                | user
+                .tag.tag-info.float-xs-right 0%

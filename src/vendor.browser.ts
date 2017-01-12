@@ -23,6 +23,9 @@ import 'ng2-validation';
 import 'ng2-webstorage';
 import 'ng2-http-interceptor';
 import 'ng2-froala-editor/ng2-froala-editor';
+import 'angular2-color-picker';
+import 'ng2-highcharts';
+import 'angular2-moment';
 
 // AngularClass
 import '@angularclass/hmr';
@@ -57,6 +60,21 @@ import 'sweetalert2';
 
 // Froala WYSIWYG HTML Editor
 import 'froala-editor/js/froala_editor.pkgd.min';
+
+// Highcharts
+import * as Highcharts from 'highcharts';
+(<any>window).Highcharts = Highcharts;
+// tslint:disable-next-line:no-var-requires
+require('highcharts/highcharts-more')(Highcharts);
+// tslint:disable-next-line:no-var-requires
+require('highcharts/modules/drilldown')(Highcharts);
+// tslint:disable-next-line:no-var-requires
+require('highcharts/modules/exporting')(Highcharts);
+// tslint:disable-next-line:no-var-requires
+require('highcharts/modules/funnel')(Highcharts);
+
+// MomentJS
+import 'moment';
 
 // TweenLite
 // import 'gsap';

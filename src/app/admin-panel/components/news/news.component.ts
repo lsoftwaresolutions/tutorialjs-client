@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as swal from 'sweetalert2';
 import { NewsService } from '../../../core/services/news';
@@ -23,25 +22,13 @@ import { NewsModalComponent } from '../news-modal/news-modal.component';
 
 export class NewsComponent implements OnInit {
   public news: INews[];
-  public courseId: string;
 
   constructor(
     private modalService: NgbModal,
-    private newsService: NewsService,
-    activatedRoute: ActivatedRoute,
-    router: Router
+    private newsService: NewsService
   ) {
     console.log('hello `News` component');
-    activatedRoute.params
-      .subscribe(
-        (params: Params) => {
-          this.courseId = params['id'];
-          this.load();
-        },
-        () => {
-          router.navigate([ '/admin/courses' ]);
-        }
-      );
+    this.load();
   }
 
   ngOnInit(): void { }
@@ -115,10 +102,12 @@ export class NewsComponent implements OnInit {
     const modalRef = this.modalService.open(NewsModalComponent);
     if (data) {
       modalRef.componentInstance.data = Object.assign({ }, data);
-      modalRef.result.then((news: INews) => Object.assign(data, news), () => { });
+      // tslint:disable-next-line:max-line-length
+      modalRef.result.then((news: INews) => Object.assign(data, news) && this.order(this.news), () => { });
     } else {
-      modalRef.componentInstance.data = { courseId: this.courseId };
-      modalRef.result.then((news: INews) => this.news.push(news), () => { });
+      modalRef.componentInstance.data = { };
+      // tslint:disable-next-line:max-line-length
+      modalRef.result.then((news: INews) => this.news.push(news) && this.order(this.news), () => { });
     }
   }
 
@@ -126,7 +115,11 @@ export class NewsComponent implements OnInit {
     this.newsService.query()
       .$observable
       .subscribe(
-        (news: INews[]) => this.news = news
+        (news: INews[]) => this.news = this.order(news)
       );
+  }
+
+  private order(news: INews[]): INews[] {
+    return news.sort((lhs: INews, rhs: INews) => Number(rhs.createdAt) - Number(lhs.createdAt));
   }
 }

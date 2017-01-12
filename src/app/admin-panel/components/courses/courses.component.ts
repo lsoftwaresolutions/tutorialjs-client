@@ -101,10 +101,16 @@ export class CoursesComponent implements OnInit {
   private open(data?: ICourse) {
     const modalRef = this.modalService.open(CourseModalComponent);
     if (data) {
-      modalRef.componentInstance.data = Object.assign({ }, data);
-      modalRef.result.then((course: ICourse) => Object.assign(data, course), () => { });
+      modalRef.componentInstance.data = Object.assign(
+        { },
+        data,
+        data.level && (<any>data.level)._id ? { level: (<any>data.level)._id } : { }
+      );
+      // tslint:disable-next-line:max-line-length
+      modalRef.result.then((course: ICourse) => Object.assign(data, course) && this.order(this.courses), () => { });
     } else {
-      modalRef.result.then((course: ICourse) => this.courses.push(course), () => { });
+      // tslint:disable-next-line:max-line-length
+      modalRef.result.then((course: ICourse) => this.courses.push(course) && this.order(this.courses), () => { });
     }
   }
 
@@ -112,7 +118,11 @@ export class CoursesComponent implements OnInit {
     this.courseService.query()
       .$observable
       .subscribe(
-        (courses: ICourse[]) => this.courses = courses
+        (courses: ICourse[]) => this.courses = this.order(courses)
       );
+  }
+
+  private order(courses: ICourse[]): ICourse[] {
+    return courses.sort((lhs: ICourse, rhs: ICourse) => lhs.order - rhs.order);
   }
 }

@@ -1,5 +1,5 @@
 interface ISectionQueryInput {
-  courseId?: string;
+  course?: string;
   q?: string;
   page?: number;
   limit?: number;
@@ -9,12 +9,11 @@ interface ISectionQueryInput {
 
 interface ISection {
   id?: string;
-  courseId?: string;
+  course?: string;
   name: string;
   description: string;
-  image?: string;
   order?: number;
-  levelId?: number;
+  level?: string;
   createdBy?: string;
   updatedBy?: string;
   createdAt?: Date;

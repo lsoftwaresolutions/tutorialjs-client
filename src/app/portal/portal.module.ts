@@ -7,7 +7,11 @@ import { ROUTES } from './portal.routes';
 import { LayoutComponent } from './components/layout';
 import { HomeComponent } from './components/home';
 import { CoursesComponent } from './components/courses';
+import { SectionsComponent } from './components/sections';
+import { ItemsComponent } from './components/items';
+import { NewsComponent } from './components/news';
 import { ProfileComponent } from './components/profile';
+import { UserComponent } from './components/user';
 
 @NgModule({
   imports: [
@@ -18,13 +22,21 @@ import { ProfileComponent } from './components/profile';
     LayoutComponent,
     HomeComponent,
     CoursesComponent,
-    ProfileComponent
+    SectionsComponent,
+    ItemsComponent,
+    NewsComponent,
+    ProfileComponent,
+    UserComponent
   ],
   declarations: [
     LayoutComponent,
     HomeComponent,
     CoursesComponent,
-    ProfileComponent
+    SectionsComponent,
+    ItemsComponent,
+    NewsComponent,
+    ProfileComponent,
+    UserComponent
   ]
 })
 

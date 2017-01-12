@@ -3,16 +3,15 @@
     transition: background-color 2.5s;
   }
 
-  .mt-75 {
-    margin-top: 75px;
+  .content-body {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 64px);
+    overflow: auto;
   }
 
-  .fullheight {
-    height: 100%;
-
-    &.mt-75 {
-      height: calc(100% - 75px);
-    }
+  .content-body {
+    top: 64px;
   }
 
   nav.navbar.navbar-header-menu {
@@ -44,15 +43,21 @@
       filter: url('#img-small-drop-shadow');
     }
 
-    img.img-avatar {
-      width: 44px;
+    .img.img-avatar {
       position: relative;
       top: -9px;
+      width: 44px;
+      height: 44px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-color: #dadada;
+      display: inline-block;
     }
 
     .username {
       position: relative;
-      top: -5px;
+      top: -23px;
     }
 
     .navbar-toggler {
@@ -122,6 +127,16 @@
 
     .nav-item:not(:first-of-type) {
       border-top: 1px solid #ddd;
+    }
+
+    .navbar-body {
+      top: 64px;
+      background: #fff;
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height: calc(100% - 64px);
+      overflow: auto;
     }
   }
 }

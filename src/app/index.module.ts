@@ -7,6 +7,7 @@ import { CoreModule } from './core';
 import { GetStartedModule } from './get-started';
 import { PortalModule } from './portal';
 import { AdminPanelModule } from './admin-panel';
+import { ChatModule } from './chat';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -48,7 +49,8 @@ type StoreType = {
     CoreModule,
     GetStartedModule,
     PortalModule,
-    AdminPanelModule
+    AdminPanelModule,
+    ChatModule
   ],
   providers: [
     // expose our Services and Providers into Angular's dependency injection

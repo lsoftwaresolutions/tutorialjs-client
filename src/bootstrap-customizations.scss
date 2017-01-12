@@ -125,7 +125,8 @@ body {
   border-radius: 50%;
 }
 
-tr {
+tr,
+a {
   .img.img-rounded-circle-hover {
     @extend .rounded-circle;
     transition: 300ms border-radius;

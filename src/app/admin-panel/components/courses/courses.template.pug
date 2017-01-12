@@ -18,6 +18,7 @@ section.card.courses(tjsMaterialize)
           th Image
           th Name
           th Description
+          th Level
           th Created By
           th Updated By
           th.text-xs-center(style='width: 1%')
@@ -59,6 +60,13 @@ section.card.courses(tjsMaterialize)
             //- small('*ngIf'='course.sectionsCount')
             //-   span.tag.tag-info.float-xs-right {{ course.sectionsCount }} sections
           td {{ course.description }}
+          td
+            strong(
+              '*ngIf'='course.level'
+              '[style.color]'='course.level.color'
+              '[ngbTooltip]'='course.level.description'
+              placement='top'
+            ) {{ course.level.name }}
           td
             button.btn.btn-info(
               type='button'

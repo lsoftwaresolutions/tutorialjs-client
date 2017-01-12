@@ -1,0 +1,143 @@
+$font-color: #fff;
+$font-color-alter: #2c3033;
+$message-color: #28abe3;
+$message-color-you: #6d6e70;
+
+.chat {
+  .right-send-container {
+    position: relative;
+
+    & > button {
+      position: absolute;
+      right: -49px;
+      top: -19px;
+      z-index: 1;
+    }
+  }
+
+  .chat-wrapper {
+    max-height: 500px;
+    overflow: auto;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        margin: 45px 0 0 0;
+        font-weight: 300;
+
+        a.user {
+          margin: -30px 0 0 0;
+          display: block;
+          color: $font-color-alter;
+
+          .img.img-avatar {
+            width: 64px;
+            height: 64px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 100%;
+            background-color: #dadada;
+            display: inline-block;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+          }
+        }
+
+        .date {
+          font-size: 14px;
+          color: lighten($font-color-alter, 45);
+        }
+
+        .message {
+          display: block;
+          padding: 10px;
+          position: relative;
+          color: $font-color;
+          font-size: 15px;
+          background-color: $message-color;
+          border-radius: 3px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+
+          &:before{
+            content: '';
+            position: absolute;
+            border-top: 16px solid rgba(0,0,0,0.15);
+            border-left: 16px solid transparent;
+            border-right: 16px solid transparent;
+          }
+
+          &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            border-top: 17px solid $message-color;
+            border-left: 17px solid transparent;
+            border-right: 17px solid transparent;
+          }
+
+          p {
+            margin: 0;
+            padding: 0;
+            transition: all 0.1s;
+          }
+        }
+      }
+
+      li.other {
+        a.user {
+          float: right;
+        }
+
+        .date {
+          float: right;
+          margin: -20px 10px 0 0;
+        }
+
+        .message {
+          margin: 0 90px 0 0;
+
+          &:before {
+            margin: -9px -16px 0 0;
+            right: 0;
+          }
+
+          &:after{
+            content: '';
+            right: 0;
+            margin: 0 -15px 0 0;
+          }
+        }
+      }
+
+      li.you {
+        a.user {
+          float: left;
+        }
+
+        .date {
+          float: left;
+          margin: -20px 0 0 10px;
+        }
+
+        .message {
+          margin: 0 0 0 90px;
+          background-color: $message-color-you;
+
+          &:before {
+            margin: -9px 0 0 -16px;
+            left: 0;
+          }
+
+          &:after{
+            content: '';
+            left: 0;
+            margin: 0 0 0 -15px;
+            border-top: 17px solid $message-color-you;
+          }
+        }
+      }
+    }
+  }
+}

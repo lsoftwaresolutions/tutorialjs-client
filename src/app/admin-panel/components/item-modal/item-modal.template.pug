@@ -1,0 +1,150 @@
+section.item-modal(tjsMaterialize)
+  form(
+    '(ngSubmit)'='save()'
+    '#itemForm'='ngForm'
+  )
+    .modal-header
+      button.close(
+        type='button'
+        role='button'
+        aria-label='Close'
+        '(click)'='modalInstance.dismiss()'
+      )
+        span(aria-hidden='true') ×
+      h4.modal-title
+        span('*ngIf'='!data.id')
+          | Add New Item
+        span('*ngIf'='data.id')
+          | Edit Item
+    .modal-body('*ngIf'='data')
+      .row
+        .col-md-12
+          .form-group.label-floating('*ngIf'='itemsTypes?.length')
+            label.control-label(for='type') Type
+            select#type.form-control(
+              name='type'
+              '[(ngModel)]'='data.type'
+              '#type'='ngModel'
+              required
+            )
+              option(
+                '*ngFor'='let itemsType of itemsTypes'
+                '[value]'='itemsType.id'
+              ) {{ itemsType.name }}
+            small.text-danger('*ngIf'='!type.valid')
+              span('*ngIf'='type.errors?.required') Type is required.
+      .row
+        .col-md-8
+          .form-group.label-floating
+            label.control-label(for='description') Description
+            froala#description(
+              '[froalaData]'='data.description'
+              '(model)'='onFroalaModelChanged($event)'
+              name='description'
+            )
+        .col-md-4
+          .form-group.label-floating
+            label.control-label(for='name') Name
+            input#name.form-control(
+              name='name'
+              type='text'
+              '[(ngModel)]'='data.name'
+              '#name'='ngModel'
+              required
+            )
+            small.text-danger('*ngIf'='!name.valid && !name.pristine')
+              span('*ngIf'='name.errors?.required') Name is required.
+          .form-group.label-floating('*ngIf'='levels?.length')
+            label.control-label(for='level') Level
+            select#level.form-control(
+              name='level'
+              '[(ngModel)]'='data.level'
+              '#level'='ngModel'
+              required
+            )
+              option(
+                '*ngFor'='let level of levels'
+                '[value]'='level.id'
+                '[style.color]'='level.color'
+              ) {{ level.name }}
+            small.text-danger('*ngIf'='!level.valid')
+              span('*ngIf'='level.errors?.required') Level is required.
+          .form-group.label-floating
+            label.control-label(for='order') Order
+            input#order.form-control(
+              name='order'
+              type='number'
+              '[(ngModel)]'='data.order'
+              '#order'='ngModel'
+              required
+              '[min]'='1'
+            )
+            small.text-danger('*ngIf'='!order.valid && !order.pristine')
+              span('*ngIf'='order.errors?.required') Order is required.
+              span('*ngIf'='order.errors?.min') Order must be higher than 0.
+      .row('*ngIf'='data.type && itemsTypesMap && itemsTypesMap[data.type]')
+        .col-md-12
+          hr
+        .col-md-12(
+          '*ngIf'='itemsTypesMap[data.type].name === "theory"'
+          tjsMaterialize
+        )
+          .form-group.label-floating
+            label.control-label(for='minTime') Min. Time for Learning (seconds)
+            input#minTime.form-control(
+              name='minTime'
+              type='number'
+              '[(ngModel)]'='data.minTime'
+              '#minTime'='ngModel'
+              '[min]'='1'
+            )
+            small.text-danger('*ngIf'='!minTime.valid && !minTime.pristine')
+              span('*ngIf'='minTime.errors?.required') Min. Time is required.
+              span('*ngIf'='minTime.errors?.min') Min. Time must be higher than 0.
+        .col-md-12(
+          '*ngIf'='itemsTypesMap[data.type].name === "quiz"'
+          tjsMaterialize
+        )
+          .row
+            .col-md-8
+              .form-group.label-floating
+                label.control-label(for='text') Text
+                froala#text(
+                  '[froalaData]'='question.text'
+                  '(model)'='onFroalaQuestionModelChanged($event)'
+                  name='text'
+                )
+            .col-md-4
+          .row
+            .col-md-12
+              //- .form-group.label-floating
+              //-   label.control-label(for='minTime') Min. Time for Learning (seconds)
+              //-   input#minTime.form-control(
+              //-     name='minTime'
+              //-     type='number'
+              //-     '[(ngModel)]'='data.minTime'
+              //-     '#minTime'='ngModel'
+              //-     required
+              //-     '[min]'='1'
+              //-   )
+              //-   small.text-danger('*ngIf'='!minTime.valid && !minTime.pristine')
+              //-     span('*ngIf'='minTime.errors?.required') Min. Time is required.
+              //-     span('*ngIf'='minTime.errors?.min') Min. Time must be higher than 0.
+    .modal-footer
+      button.btn.btn-secondary(
+        type='button'
+        role='button'
+        '(click)'='modalInstance.dismiss()'
+      )
+        i.fa.fa-fw.fa-ban
+        | &nbsp;
+        | Close
+      button.btn.btn-success(
+        type='button'
+        role='button'
+        '(click)'='save()'
+        '[disabled]'='!itemForm.form.valid'
+      )
+        i.fa.fa-fw.fa-floppy-o
+        | &nbsp;
+        | Save

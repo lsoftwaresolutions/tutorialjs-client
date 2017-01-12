@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NewsService } from '../../../core/services/news';
-import { FroalaEditorCompnoent } from 'ng2-froala-editor/ng2-froala-editor';
 
 
 @Component({

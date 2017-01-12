@@ -35,7 +35,7 @@ export class SectionsComponent implements OnInit {
     activatedRoute.params
       .subscribe(
         (params: Params) => {
-          this.courseId = params['id'];
+          this.courseId = params['courseId'];
           this.load();
         },
         () => {
@@ -75,7 +75,7 @@ export class SectionsComponent implements OnInit {
       cancelButtonText: 'No!'
     })
       .then(() => {
-        this.sectionService.remove({ id: section.id })
+        this.sectionService.remove({ id: section.id, course: this.courseId })
           .$observable
           .subscribe(
             () => {
@@ -114,19 +114,29 @@ export class SectionsComponent implements OnInit {
   private open(data?: ISection) {
     const modalRef = this.modalService.open(SectionModalComponent);
     if (data) {
-      modalRef.componentInstance.data = Object.assign({ }, data);
-      modalRef.result.then((section: ISection) => Object.assign(data, section), () => { });
+      modalRef.componentInstance.data = Object.assign(
+        { course: this.courseId },
+        data,
+        data.level && (<any>data.level)._id ? { level: (<any>data.level)._id } : { }
+      );
+      // tslint:disable-next-line:max-line-length
+      modalRef.result.then((section: ISection) => Object.assign(data, section) && this.order(this.sections), () => { });
     } else {
-      modalRef.componentInstance.data = { courseId: this.courseId };
-      modalRef.result.then((section: ISection) => this.sections.push(section), () => { });
+      modalRef.componentInstance.data = { course: this.courseId };
+      // tslint:disable-next-line:max-line-length
+      modalRef.result.then((section: ISection) => this.sections.push(section) && this.order(this.sections), () => { });
     }
   }
 
   private load() {
-    this.sectionService.query({ courseId: this.courseId })
+    this.sectionService.query({ course: this.courseId })
       .$observable
       .subscribe(
-        (sections: ISection[]) => this.sections = sections
+        (sections: ISection[]) => this.sections = this.order(sections)
       );
+  }
+
+  private order(courses: ISection[]): ISection[] {
+    return courses.sort((lhs: ISection, rhs: ISection) => lhs.order - rhs.order);
   }
 }

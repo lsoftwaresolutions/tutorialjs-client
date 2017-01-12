@@ -12,7 +12,7 @@ interface ICourse {
   description: string;
   image?: string;
   order?: number;
-  levelId?: number;
+  level?: string;
   createdBy?: string;
   updatedBy?: string;
   createdAt?: Date;

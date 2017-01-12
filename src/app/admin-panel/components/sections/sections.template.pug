@@ -15,9 +15,9 @@ section.card.sections(tjsMaterialize)
             i.fa.fa-pencil
           th.text-xs-center(style='width: 1%')
             i.fa.fa-link
-          th Image
           th Name
           th Description
+          th Level
           th Created By
           th Updated By
           th.text-xs-center(style='width: 1%')
@@ -40,25 +40,23 @@ section.card.sections(tjsMaterialize)
             button.btn.btn-info(
               type='button'
               role='button'
-              routerLink='/admin/home'
+              '[routerLink]'='[ "/admin/courses", section.course, "section", section.id ]'
               ngbTooltip='Open Section'
               placement='top'
             )
               i.fa.fa-link
-          td
-            div('*ngIf'='section.image')
-              template('#tipSectionImage'='')
-                img.img.img-section-tooltip.img-rounded('[src]'='section.image')
-              .img.img-section.img-rounded-circle-hover(
-                '[ngStyle]'='{ backgroundImage: "url(\'" + section.image + "\')" }'
-                '[ngbTooltip]'='tipSectionImage'
-                placement='top'
-              )
           th
             | {{ section.name }}
-            small('*ngIf'='section.sectionsCount')
-              span.tag.tag-info.float-xs-right {{ section.sectionsCount }} sections
+            small('*ngIf'='section.itemsCount')
+              span.tag.tag-info.float-xs-right {{ section.itemsCount }} items
           td {{ section.description }}
+          td
+            strong(
+              '*ngIf'='section.level'
+              '[style.color]'='section.level.color'
+              '[ngbTooltip]'='section.level.description'
+              placement='top'
+            ) {{ section.level.name }}
           td
             button.btn.btn-info(
               type='button'

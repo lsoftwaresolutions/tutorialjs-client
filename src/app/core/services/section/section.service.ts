@@ -4,7 +4,7 @@ import { Http, RequestMethod } from '@angular/http';
 import { APIResourceService } from '../api-resource';
 
 @Injectable()
-@ResourceParams({ path: 'courses/{!courseId}/sections' })
+@ResourceParams({ path: 'courses/{!course}/sections' })
 export class SectionService extends APIResourceService {
 
   @ResourceAction({
@@ -13,7 +13,7 @@ export class SectionService extends APIResourceService {
   query: ResourceMethod<ISectionQueryInput, ISection[]>;
 
   @ResourceAction({
-    path: '/courses/{!courseId}/sections/{!id}'
+    path: '/courses/{!course}/sections/{!id}'
   })
   get: ResourceMethod<{id: any}, ISection>;
 
@@ -24,15 +24,15 @@ export class SectionService extends APIResourceService {
 
   @ResourceAction({
     method: RequestMethod.Put,
-    path: '/courses/{!courseId}/sections/{!id}'
+    path: '/courses/{!course}/sections/{!id}'
   })
   update: ResourceMethod<ISection, ISection>;
 
   @ResourceAction({
     method: RequestMethod.Delete,
-    path: '/courses/{!courseId}/sections/{!id}'
+    path: '/courses/{!course}/sections/{!id}'
   })
-  remove: ResourceMethod<{id: any}, any>;
+  remove: ResourceMethod<any, any>;
 
   constructor(http: Http, injector: Injector) {
     super(http, injector);

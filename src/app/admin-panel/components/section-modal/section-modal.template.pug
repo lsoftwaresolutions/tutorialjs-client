@@ -39,6 +39,21 @@ section.section-modal(tjsMaterialize)
         )
         small.text-danger('*ngIf'='!description.valid && !description.pristine')
           span('*ngIf'='description.errors?.required') Description is required.
+      .form-group.label-floating('*ngIf'='levels?.length')
+        label.control-label(for='level') Level
+        select#level.form-control(
+          name='level'
+          '[(ngModel)]'='data.level'
+          '#level'='ngModel'
+          required
+        )
+          option(
+            '*ngFor'='let level of levels'
+            '[value]'='level.id'
+            '[style.color]'='level.color'
+          ) {{ level.name }}
+        small.text-danger('*ngIf'='!level.valid')
+          span('*ngIf'='level.errors?.required') Level is required.
       .form-group.label-floating
         label.control-label(for='order') Order
         input#order.form-control(
@@ -75,6 +90,7 @@ section.section-modal(tjsMaterialize)
         type='button'
         role='button'
         '(click)'='save()'
+        '[disabled]'='!sectionForm.form.valid'
       )
         i.fa.fa-fw.fa-floppy-o
         | &nbsp;

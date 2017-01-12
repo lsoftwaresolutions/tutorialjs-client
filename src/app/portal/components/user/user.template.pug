@@ -1,0 +1,55 @@
+section.card.user(tjsMaterialize)
+  .card-block('*ngIf'='user')
+    h4.card-title
+      i.fa.fa-user
+      | &nbsp;
+      | User Profile
+      | "{{ user.login }}"
+    .card-text
+      .row
+        .col-md-2
+          .row
+            .col-xs-12
+              img.img.img-responsive('[src]'='user.picture')
+          .row
+            .col-xs-12('*ngIf'='user.firstname')
+              small.text-muted First Name
+              h3 {{ user.firstname }}
+          .row
+            .col-xs-12('*ngIf'='user.lastname')
+              small.text-muted Last Name
+              h3 {{ user.lastname }}
+        .col-md-10
+          .row
+            .col-md-6('*ngIf'='user.role')
+              small.text-muted Role
+              h3.text-capitalize {{ user.role }}
+            .col-md-6
+              small.text-muted Level
+              h3(style='color: #0c97ce;') Begginer
+            .col-md-6('*ngIf'='user.points !== undefined')
+              small.text-muted Points
+              h3 {{ user.points }}
+            .col-md-6('*ngIf'='user.reputation !== undefined')
+              small.text-muted Reputation
+              h3(
+                '[ngClass]'='{ "text-danger": user.reputation < 0,  "text-success": user.reputation > 0 }'
+              )
+                | {{ user.reputation }}
+                a.btn.btn-success
+                  i.fa.fa-fw.fa-thumbs-up
+                a.btn.btn-danger
+                  i.fa.fa-fw.fa-thumbs-down
+            .col-md-6('*ngIf'='user.birthday')
+              small.text-muted Birthday
+              h3 {{ user.birthday }}
+            .col-md-6
+              small.text-muted Registered
+              h3 {{ user.createdAt | date: 'dd/MM/y hh:mm a' }}
+            .col-md-6('*ngIf'='currentUser?.role === "admin" && user.email')
+              small.text-muted Email
+              h3 {{ user.email }}
+      .row
+        .col-xs-12
+          br
+          .chart('[ng2-highcharts]'='chartData')

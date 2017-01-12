@@ -60,6 +60,7 @@ section.sign-in(tjsMaterialize)
               button.btn.btn-success.float-xs-right(
                 type='submit'
                 role='button'
+                '[disabled]'='!signInForm.form.valid'
               )
                 i.fa.fa-check
                 | &nbsp;

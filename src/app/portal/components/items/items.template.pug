@@ -1,0 +1,107 @@
+section.card.items(tjsMaterialize)
+  .card-block
+    h4.card-title
+      i.fa.fa-archive
+      | &nbsp;
+      | Items
+      small('*ngIf'='items?.length')
+        | &nbsp;
+        span.tag.tag-pill.tag-default {{ currentIndex + 1 }} / {{ items.length }}
+  .card-text
+    .container-fluid
+      .row('*ngIf'='items?.length && items[currentIndex] && items[currentIndex] && items[currentIndex].type && items[currentIndex].type._id && itemsTypesMap && itemsTypesMap[items[currentIndex].type._id]')
+        .col-xs-12(
+          '*ngIf'='itemsTypesMap[items[currentIndex].type._id].name === "theory"'
+          tjsMaterialize
+        )
+          h5 {{ items[currentIndex].name }}
+          div('[innerHtml]'='items[currentIndex].description')
+        .col-xs-12(
+          '*ngIf'='itemsTypesMap[items[currentIndex].type._id].name === "quiz"'
+          tjsMaterialize
+        )
+          p Which of the following JavaScript statements use arrays?
+          .form-check
+            label.form-check-label(for='exampleRadios1')
+              input.form-check-input(
+                type='radio'
+                name='exampleRadios'
+                id='exampleRadios1'
+                value='option1'
+                checked
+              )
+              | x = a(i)
+          .form-check
+            label.form-check-label(for='exampleRadios2')
+              input.form-check-input(
+                type='radio'
+                name='exampleRadios'
+                id='exampleRadios2'
+                value='option2'
+                checked
+              )
+              | x = a[i]
+          .form-check
+            label.form-check-label(for='exampleRadios3')
+              input.form-check-input(
+                type='radio'
+                name='exampleRadios'
+                id='exampleRadios3'
+                value='option3'
+                checked
+              )
+              | x = a >> i
+          .form-check
+            label.form-check-label(for='exampleRadios4')
+              input.form-check-input(
+                type='radio'
+                name='exampleRadios'
+                id='exampleRadios4'
+                value='option4'
+                checked
+              )
+              | x = a & i
+    .row
+      .col-xs-6
+        button.btn.btn-block.btn-default(
+          type='button'
+          role='button'
+          '(click)'='prev()'
+          '[disabled]'='currentIndex === 0'
+        )
+          i.fa.fa-chevron-left
+          | &nbsp;
+          | Previous
+      .col-xs-6
+        button.btn.btn-block.btn-primary(
+          type='button'
+          role='button'
+          '(click)'='next()'
+          '*ngIf'='currentIndex + 1 !== items?.length'
+        )
+          i.fa.fa-chevron-right
+          | &nbsp;
+          | Next
+        button.btn.btn-block.btn-success(
+          type='button'
+          role='button'
+          routerLink='/home'
+          '*ngIf'='currentIndex + 1 === items?.length'
+        )
+          i.fa.fa-flag-checkered
+          | &nbsp;
+          | Finish
+  .alert.alert-info.mb-0(
+    role='alert'
+    '*ngIf'='!items?.length'
+  )
+    | No items yet.
+    ul
+      li Try to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='refresh()'
+        ) refresh
+        | &nbsp;
+        | data.

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { SectionService } from '../../../core/services/section';
+import { LevelService } from '../../../core/services/level';
 
 
 @Component({
@@ -11,7 +12,8 @@ import { SectionService } from '../../../core/services/section';
   selector: 'section-modal',  // <section-modal></section-modal>
   // We need to tell Angular's Dependency Injection which providers are in our app.
   providers: [
-    SectionService
+    SectionService,
+    LevelService
   ],
   // Our list of styles in our component. We may add more to compose many styles together
   styleUrls: [ './section-modal.style.scss' ],
@@ -20,6 +22,7 @@ import { SectionService } from '../../../core/services/section';
 })
 
 export class SectionModalComponent implements OnInit {
+  public levels: ILevel[];
   @Input() data: ISection = {
     name: '',
     description: ''
@@ -28,9 +31,11 @@ export class SectionModalComponent implements OnInit {
   constructor(
     public modalInstance: NgbActiveModal,
     private toastr: ToastsManager,
-    private sectionService: SectionService
+    private sectionService: SectionService,
+    private levelService: LevelService
   ) {
     console.log('hello `Section Modal` component');
+    this.loadLevels();
   }
 
   ngOnInit(): void { }
@@ -70,5 +75,13 @@ export class SectionModalComponent implements OnInit {
           }
         );
     }
+  }
+
+  private loadLevels() {
+    this.levelService.query()
+      .$observable
+      .subscribe(
+        (levels: ILevel[]) => this.levels = levels
+      );
   }
 }

@@ -55,7 +55,7 @@ section.get-started.bg-animated(tjsMaterialize)
             li.nav-item(routerLinkActive='active')
               a.nav-link(routerLink='/courses') Courses
             li.nav-item(routerLinkActive='active')
-              a.nav-link(routerLink='/stories') Stories
+              a.nav-link(routerLink='/chat') Chat
             li.nav-item(routerLinkActive='active')
               a.nav-link(routerLink='/news') News
             li.nav-item('*ngIf'='user?.role === "admin"')
@@ -69,7 +69,9 @@ section.get-started.bg-animated(tjsMaterialize)
             li.nav-item(routerLinkActive='active')
               a.nav-link(routerLink='/profile')
                 //- i.fa.fa-user
-                img.img-responsive.img-avatar('[src]'='user.picture')
+                .img.img-avatar.img-rounded-circle-hover(
+                  '[ngStyle]'='{ backgroundImage: "url(\'" + user.picture + "\')" }'
+                )
                 span.tjs-darkblue-important.username
                   | &nbsp;
                   strong {{ user.firstname || user.login }}
@@ -112,42 +114,33 @@ section.get-started.bg-animated(tjsMaterialize)
           .row.flex-items-xs-middle.fullheight
             .col-xs
               .owl-carousel.owl-theme.owl-carousel-courses
-                .card
+                .card.tjs-bg-white(
+                  '*ngFor'='let course of courses'
+                  '[ngClass]'='{ "card-outline-danger": !course.isAvailable }'
+                )
                   .img-wrapper
                     img.card-img-top.img-fluid(
-                      src='http://blog.zacorp.ru/wp-content/uploads/2016/09/how_to_add_attribute_dynamically_in_html_tag_using_javascript_function.png'
-                      alt='JavaScript'
+                      '[src]'='course.image'
+                      '[alt]'='course.name'
                     )
                   .card-block
                     .title-wrapper
-                      h4.card-title JavaScript
+                      h4.card-title {{ course.name }}
                     .description-wrapper
-                      p.card-text It is a high-level, dynamic, untyped, and interpreted programming language. It has been standardized in the ECMAScript language specification. JavaScript is prototype-based with first-class functions, making it a multi-paradigm language, supporting object-oriented, imperative, and functional programming styles.
-                    a.btn.btn-block.btn-primary(href='#') Start Now
-                .card
-                  .img-wrapper
-                    img.card-img-top.img-fluid(
-                      src='https://10consulting.com/assets/2012-10-12-typescript-presentation.png'
-                      alt='TypeScript'
+                      p.card-text {{ course.description }}
+                    button.btn.btn-block(
+                      type='button'
+                      role='button'
+                      class='btn-{{ course.isAvailable ? "primary" : "danger" }}'
+                      '[disabled]'='!course.isAvailable'
+                      '[routerLink]'='[ "/courses", course.id ]'
+                      ngbTooltip='Start Course'
+                      placement='top'
                     )
-                  .card-block
-                    .title-wrapper
-                      h4.card-title TypeScript
-                    .description-wrapper
-                      p.card-text It is a free and open-source programming language developed and maintained by Microsoft. It is a strict superset of JavaScript, and adds optional static typing and class-based object-oriented programming to the language. TypeScript may be used to develop JavaScript applications for client-side or server-side (Node.js) execution.
-                    a.btn.btn-block.btn-primary(href='#') Start Now
-                .card
-                  .img-wrapper
-                    img.card-img-top.img-fluid(
-                      src='http://ithub.hu/images/blog/es6.jpg'
-                      alt='ECMAScript'
-                    )
-                  .card-block
-                    .title-wrapper
-                      h4.card-title ECMAScript
-                    .description-wrapper
-                      p.card-text ECMAScript 6, also known as ECMAScript 2015, is the latest version of the ECMAScript standard. ES6 is a significant update to the language, and the first update to the language since ES5 was standardized in 2009. Implementation of these features in major JavaScript engines is underway now.
-                    a.btn.btn-block.btn-primary(href='#') Start Now
+                      i.fa.fa-play
+                      | &nbsp;
+                      span('*ngIf'='course.isAvailable') Start Now
+                      span('*ngIf'='!course.isAvailable') Not available yet
     .section.fp-section.fp-table
       .fp-tableCell
         .container.stories.fullheight.mt-75
@@ -208,37 +201,25 @@ section.get-started.bg-animated(tjsMaterialize)
           .row.flex-items-xs-middle.fullheight
             .col-xs
               .owl-carousel.owl-theme.owl-carousel-news
-                .card
-                  .row
+                .card('*ngFor'='let newsItem of news')
+                  .row.px-1.py-1
                     .col-xs-4
                       img.img-responsive.img-fluid(
-                        src='https://i.imgflip.com/q7ugi.jpg'
-                        alt='This is what we started'
+                        '[src]'='newsItem.image'
+                        '[alt]'='newsItem.name'
                       )
                     .col-xs-8
                       blockquote.blockquote
-                        h4 Some other news
-                        p.mb-0 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ante dui, vulputate nec volutpat at, ultricies vitae magna. Morbi lectus dolor, pulvinar sed consequat vel, lobortis quis odio. Vivamus imperdiet, orci quis sagittis porta, nunc arcu convallis sapien, ac posuere neque erat sit amet nisi. Etiam pharetra ultrices mollis.
+                        h4 {{ newsItem.name }}
+                        p.mb-0('[innerHTML]'='newsItem.text')
                         footer.blockquote-footer
-                          | Ruslan Lekhman
+                          button.btn.btn-info(
+                            type='button'
+                            role='button'
+                            '[routerLink]'='[ "/users", newsItem.createdBy._id ]'
+                            ngbTooltip='Open Users Profile'
+                            placement='top'
+                            '*ngIf'='newsItem.createdBy?._id'
+                          ) {{ newsItem.createdBy.login }}
                           | &nbsp;
-                          cite(title='TutorialJS') TutorialJS
-                          | &nbsp;
-                          span.text-muted 13/12/2016
-                .card
-                  .row
-                    .col-xs-4
-                      img.img-responsive.img-fluid(
-                        src='https://s-media-cache-ak0.pinimg.com/564x/56/e7/ae/56e7aee6d26ed45b56b9b3538a44cf38.jpg'
-                        alt='This is what we started'
-                      )
-                    .col-xs-8
-                      blockquote.blockquote
-                        h4 This is what we started
-                        p.mb-0 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ante dui, vulputate nec volutpat at, ultricies vitae magna. Morbi lectus dolor, pulvinar sed consequat vel, lobortis quis odio. Vivamus imperdiet, orci quis sagittis porta, nunc arcu convallis sapien, ac posuere neque erat sit amet nisi. Etiam pharetra ultrices mollis.
-                        footer.blockquote-footer
-                          | Ruslan Lekhman
-                          | &nbsp;
-                          cite(title='TutorialJS') TutorialJS
-                          | &nbsp;
-                          span.text-muted 13/12/2016
+                          cite {{ newsItem.createdAt | date: 'dd/MM/y hh:mm a' }}

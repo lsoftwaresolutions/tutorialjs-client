@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { CourseService } from '../../../core/services/course';
+import { LevelService } from '../../../core/services/level';
 
 
 @Component({
@@ -11,7 +12,8 @@ import { CourseService } from '../../../core/services/course';
   selector: 'course-modal',  // <course-modal></course-modal>
   // We need to tell Angular's Dependency Injection which providers are in our app.
   providers: [
-    CourseService
+    CourseService,
+    LevelService
   ],
   // Our list of styles in our component. We may add more to compose many styles together
   styleUrls: [ './course-modal.style.scss' ],
@@ -20,6 +22,7 @@ import { CourseService } from '../../../core/services/course';
 })
 
 export class CourseModalComponent implements OnInit {
+  public levels: ILevel[];
   @Input() data: ICourse = {
     name: '',
     description: ''
@@ -29,9 +32,11 @@ export class CourseModalComponent implements OnInit {
   constructor(
     public modalInstance: NgbActiveModal,
     private toastr: ToastsManager,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private levelService: LevelService
   ) {
     console.log('hello `Course Modal` component');
+    this.loadLevels();
   }
 
   ngOnInit(): void { }
@@ -80,5 +85,13 @@ export class CourseModalComponent implements OnInit {
       this.data.image = binaryString;
     };
     reader.readAsDataURL((<any>event.target).files[0]);
+  }
+
+  private loadLevels() {
+    this.levelService.query()
+      .$observable
+      .subscribe(
+        (levels: ILevel[]) => this.levels = levels
+      );
   }
 }

@@ -1,0 +1,46 @@
+section.news(tjsMaterialize)
+  h4
+    i.fa.fa-newspaper-o
+    | &nbsp;
+    | News
+    small('*ngIf'='news?.length')
+      | &nbsp;
+      span.tag.tag-pill.tag-default {{ news.length }}
+  .row('*ngFor'='let newsItem of news')
+    .col-xs-12
+      .card
+        .row.px-1.py-1
+          .col-xs-4
+            img.img-responsive.img-fluid(
+              '[src]'='newsItem.image'
+              '[alt]'='newsItem.name'
+            )
+          .col-xs-8
+            blockquote.blockquote
+              h4 {{ newsItem.name }}
+              p.mb-0('[innerHTML]'='newsItem.text')
+              footer.blockquote-footer
+                button.btn.btn-info(
+                  type='button'
+                  role='button'
+                  '[routerLink]'='[ "/users", newsItem.createdBy._id ]'
+                  ngbTooltip='Open Users Profile'
+                  placement='top'
+                  '*ngIf'='newsItem.createdBy?._id'
+                ) {{ newsItem.createdBy.login }}
+                | &nbsp;
+                cite {{ newsItem.createdAt | date: 'dd/MM/y hh:mm a' }}
+  .alert.alert-info.mb-0(
+    role='alert'
+    '*ngIf'='!news?.length'
+  )
+    | No news yet.
+    ul
+      li Try to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='refresh()'
+        ) refresh
+        | &nbsp;
+        | data.

@@ -38,7 +38,7 @@ section.layout(tjsMaterialize)
                 li.nav-item(routerLinkActive='active')
                   a.nav-link(routerLink='/admin/dashboard') Dashboard
                 li.nav-item(routerLinkActive='active')
-                  a.nav-link(routerLink='/admin/chat') Chat
+                  a.nav-link(routerLink='/chat') Chat
                 li.nav-item(routerLinkActive='active')
                   a.nav-link(routerLink='/admin/news') News
                 li.nav-item
@@ -48,7 +48,9 @@ section.layout(tjsMaterialize)
               ul.nav.navbar-nav.float-lg-right('*ngIf'="user")
                 li.nav-item(routerLinkActive='active')
                   a.nav-link(routerLink='/profile')
-                    img.img-responsive.img-avatar('[src]'='user.picture')
+                    .img.img-avatar.img-rounded-circle-hover(
+                      '[ngStyle]'='{ backgroundImage: "url(\'" + user.picture + "\')" }'
+                    )
                     span.username
                       | &nbsp;
                       strong {{ user.firstname || user.login }}

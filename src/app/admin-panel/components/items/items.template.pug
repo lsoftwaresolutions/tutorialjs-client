@@ -1,0 +1,105 @@
+section.card.items(tjsMaterialize)
+  .card-block
+    h4.card-title
+      i.fa.fa-archive
+      | &nbsp;
+      | Items
+      small('*ngIf'='items?.length')
+        | &nbsp;
+        span.tag.tag-pill.tag-default {{ items.length }}
+  .table-responsive
+    table.table.table-hover.mb-0
+      thead.thead-inverse
+        tr
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-pencil
+          th Name
+          th Level
+          th Type
+          th Created By
+          th Updated By
+          th.text-xs-center(style='width: 1%')
+            i.fa.fa-trash
+      tbody
+        tr('*ngFor'='let item of items')
+          td.text-xs-center
+            button.btn.btn-primary(
+              type='button'
+              role='button'
+              '(click)'='edit(item, $event)'
+              ngbTooltip='Edit Item'
+              placement='top'
+            )
+              i.fa.fa-pencil
+          th
+            | {{ item.name }}
+          td
+            strong(
+              '*ngIf'='item.level'
+              '[style.color]'='item.level.color'
+              '[ngbTooltip]'='item.level.description'
+              placement='top'
+            ) {{ item.level.name }}
+          td
+            span.tag.tag-info.text-capitalize(
+              '*ngIf'='item.type'
+              '[ngbTooltip]'='item.type.description'
+              placement='top'
+            ) {{ item.type.name }}
+          td
+            button.btn.btn-info(
+              type='button'
+              role='button'
+              '[routerLink]'='[ "/users", item.createdBy._id ]'
+              ngbTooltip='Open Users Profile'
+              placement='top'
+              '*ngIf'='item.createdBy?._id'
+            ) {{ item.createdBy.login }}
+          td
+            button.btn.btn-info(
+              type='button'
+              role='button'
+              '[routerLink]'='[ "/users", item.updatedBy._id ]'
+              ngbTooltip='Open Users Profile'
+              placement='top'
+              '*ngIf'='item.updatedBy?._id'
+            ) {{ item.updatedBy.login }}
+          td.text-xs-center
+            button.btn.btn-danger(
+              type='button'
+              role='button'
+              '(click)'='remove(item, $event)'
+              ngbTooltip='Remove Item'
+              placement='top'
+            )
+              i.fa.fa-trash
+  .alert.alert-info.mb-0(
+    role='alert'
+    '*ngIf'='!items?.length'
+  )
+    | No items yet.
+    ul
+      li Try to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='refresh()'
+        ) refresh
+        | &nbsp;
+        | data.
+      li
+        | Would you like to
+        | &nbsp;
+        a.alert-link(
+          hrefVoid
+          '(click)'='add()'
+        ) add one
+        | ?
+  .bottom-right-actions-container
+    button.btn.btn-primary.btn-fab(
+      '(click)'='add()'
+      ngbTooltip='Add New Item'
+      placement='top'
+      container='body'
+    )
+      i.fa.fa-plus

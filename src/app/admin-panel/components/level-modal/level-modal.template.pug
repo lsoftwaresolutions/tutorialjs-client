@@ -40,28 +40,32 @@ section.level-modal(tjsMaterialize)
         small.text-danger('*ngIf'='!description.valid && !description.pristine')
           span('*ngIf'='description.errors?.required') Description is required.
       .form-group.label-floating
-        label.control-label(for='order') Order
-        input#order.form-control(
-          name='order'
-          type='number'
-          '[(ngModel)]'='data.order'
-          '#order'='ngModel'
+        label.control-label(for='color') Color
+        input#color.form-control(
+          name='color'
+          '[(colorPicker)]'='data.color'
+          '[style.background]'='data.color'
+          '[value]'='data.color'
+          '#color'=''
           required
-          '[min]'='1'
         )
-        small.text-danger('*ngIf'='!order.valid && !order.pristine')
-          span('*ngIf'='order.errors?.required') Order is required.
-          span('*ngIf'='order.errors?.min') Order must be higher than 0.
-      .form-group
-        .togglebutton
-          label(for='isAvailable')
-            input#isAvailable(
-              name='isAvailable'
-              type='checkbox'
-              '[(ngModel)]'='data.isAvailable'
-              '#isAvailable'='ngModel'
-            )
-            | Is Available?
+        small.text-danger('*ngIf'='!color.valid && !color.pristine')
+          span('*ngIf'='color.errors?.required') Color is required.
+      .form-group.label-floating
+        label.control-label(for='points') Points
+        input#points.form-control(
+          name='points'
+          type='number'
+          '[(ngModel)]'='data.points'
+          '#points'='ngModel'
+          required
+          '[min]'='0'
+          '[max]'='100'
+        )
+        small.text-danger('*ngIf'='!points.valid && !points.pristine')
+          span('*ngIf'='points.errors?.required') Points is required.
+          span('*ngIf'='points.errors?.min') Points must be higher than 0.
+          span('*ngIf'='points.errors?.max') Points must be lower than 100.
     .modal-footer
       button.btn.btn-secondary(
         type='button'
@@ -75,6 +79,7 @@ section.level-modal(tjsMaterialize)
         type='button'
         role='button'
         '(click)'='save()'
+        '[disabled]'='!levelForm.form.valid'
       )
         i.fa.fa-fw.fa-floppy-o
         | &nbsp;
